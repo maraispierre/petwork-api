@@ -5,7 +5,7 @@ import { AuthService } from './auth.service';
 describe('AuthService', () => {
   let authService: AuthService;
   let usersService: UsersService;
-  let jwtService: JwtService
+  let jwtService: JwtService;
 
   beforeEach(async () => {
     authService = new AuthService(usersService, jwtService);

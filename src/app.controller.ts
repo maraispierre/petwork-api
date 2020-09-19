@@ -1,4 +1,11 @@
-import { Controller, Request, Body, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Request,
+  Body,
+  Get,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { AppService } from './app.service';
 
@@ -11,5 +18,4 @@ export class AppController {
   getProfile(@Request() req) {
     return req.user;
   }
-
 }

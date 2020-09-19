@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 
 describe('AuthController', () => {
   let authController: AuthController;
-  let authService: AuthService
+  let authService: AuthService;
 
   beforeEach(async () => {
     authController = new AuthController(authService);
