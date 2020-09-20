@@ -1,18 +1,17 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
 
 describe('UsersService', () => {
-  let service: UsersService;
+  const BAD_EMAIL = 'fake';
+
+  let usersService: UsersService;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [UsersService],
-    }).compile();
-
-    service = module.get<UsersService>(UsersService);
+    usersService = new UsersService();
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  describe('findOne', () => {
+    it('should return undefined', async () => {
+      expect(await usersService.findOne(BAD_EMAIL)).toBeUndefined();
+    });
   });
 });
