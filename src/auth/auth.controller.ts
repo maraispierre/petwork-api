@@ -1,4 +1,4 @@
-import { Controller, Body, Post } from '@nestjs/common';
+import { Controller, Body, Post, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 
@@ -8,6 +8,10 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() login: LoginDto) {
-    return this.authService.login(login);
+    const result = await this.authService.login(login);
+    if (result === undefined) {
+      throw new UnauthorizedException();
+    }
+    return result;
   }
 }
