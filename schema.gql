@@ -7,6 +7,19 @@ type User {
   email: String
 }
 
+type JwtToken {
+  token: String!
+}
+
 type Query {
   user(email: String!): User!
+}
+
+type Mutation {
+  login(login: Login!): JwtToken!
+}
+
+input Login {
+  email: String!
+  password: String!
 }

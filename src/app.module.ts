@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 @Module({
   imports: [
     GraphQLModule.forRoot({
+      context: ({ req }) => ({ req }),
       autoSchemaFile: 'schema.gql',
     }),
     AuthModule,

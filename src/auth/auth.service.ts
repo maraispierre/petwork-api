@@ -15,7 +15,7 @@ export class AuthService {
     if (userModel && login.password === userModel.password) {
       const payload = { email: login.email };
       return {
-        access_token: this.jwtService.sign(payload),
+        token: this.jwtService.sign(payload),
       };
     }
     return undefined;
