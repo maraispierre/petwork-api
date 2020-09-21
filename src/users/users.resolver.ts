@@ -6,7 +6,7 @@ import { UsersService } from './users.service';
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
-  @Query(returns => User)
+  @Query(/* istanbul ignore next */ returns => User)
   async user(@Args('email') email: string) {
     return this.usersService.findOne(email);
   }
