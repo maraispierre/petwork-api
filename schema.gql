@@ -8,7 +8,7 @@ type User {
 }
 
 type JwtToken {
-  token: String!
+  access_token: String!
 }
 
 type Query {
