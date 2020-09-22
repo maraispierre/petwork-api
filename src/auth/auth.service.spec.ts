@@ -21,7 +21,7 @@ describe('AuthService', () => {
   });
 
   describe('login', () => {
-    it('should return a jwt token', async () => {
+    it('should return a jwt token', () => {
       const login = {
         email: EMAIL_LOGIN,
         password: PASSWORD_LOGIN,
@@ -32,10 +32,10 @@ describe('AuthService', () => {
       };
       const result = { access_token: TOKEN_TEST };
 
-      jest.spyOn(usersService, 'findOne').mockImplementation(async () => user);
+      jest.spyOn(usersService, 'findOne').mockImplementation(() => user);
       jest.spyOn(jwtService, 'sign').mockImplementation(() => TOKEN_TEST);
 
-      expect(await authService.login(login)).toStrictEqual(result);
+      expect(authService.login(login)).toStrictEqual(result);
     });
 
     it('should return null value', async () => {
@@ -46,10 +46,10 @@ describe('AuthService', () => {
       const user = null;
       const result = { access_token: TOKEN_TEST };
 
-      jest.spyOn(usersService, 'findOne').mockImplementation(async () => user);
+      jest.spyOn(usersService, 'findOne').mockImplementation(() => user);
       jest.spyOn(jwtService, 'sign').mockImplementation(() => TOKEN_TEST);
 
-      expect(await authService.login(login)).toBeUndefined();
+      expect(authService.login(login)).toBeUndefined();
     });
   });
 });

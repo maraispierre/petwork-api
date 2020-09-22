@@ -1,0 +1,25 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: Int!
+  email: String
+}
+
+type JwtToken {
+  access_token: String!
+}
+
+type Query {
+  user(email: String!): User!
+}
+
+type Mutation {
+  login(login: Login!): JwtToken!
+}
+
+input Login {
+  email: String!
+  password: String!
+}

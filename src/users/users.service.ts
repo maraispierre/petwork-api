@@ -9,24 +9,24 @@ export class UsersService {
   constructor() {
     this.users = [
       {
-        userId: 1,
+        id: 1,
         email: 'john',
         password: 'changeme',
       },
       {
-        userId: 2,
+        id: 2,
         email: 'chris',
         password: 'secret',
       },
       {
-        userId: 3,
+        id: 3,
         email: 'maria',
         password: 'guess',
       },
     ];
   }
 
-  async findOne(email: string): Promise<User | undefined> {
+  findOne(email: string): User | undefined {
     return this.users.find(user => user.email === email);
   }
 }
