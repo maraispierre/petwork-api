@@ -3,7 +3,7 @@
 # ------------------------------------------------------
 
 type User {
-  id: Int!
+  _id: String!
   email: String
 }
 
@@ -16,10 +16,10 @@ type Query {
 }
 
 type Mutation {
-  login(login: Login!): JwtToken!
+  login(login: LoginInput!): JwtToken!
 }
 
-input Login {
+input LoginInput {
   email: String!
   password: String!
 }
