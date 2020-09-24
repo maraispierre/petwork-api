@@ -15,12 +15,13 @@ import { UsersModule } from './users/users.module';
     }),
     TypeOrmModule.forRoot({
       type: 'mongodb',
-      url: 'mongodb://127.0.0.1:27017',
+      url:
+        'mongodb+srv://mongo-petwork-admin:bMVAHZkO6ja8pg4A@cluster0.z4vfi.gcp.mongodb.net/petwork?retryWrites=true&w=majority',
       entities: [join(__dirname, '**/**.model{.ts,.js}')],
       synchronize: true,
       useNewUrlParser: true,
       logging: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
     }),
     AuthModule,
     UsersModule,
