@@ -5,5 +5,7 @@ services:
         image: petwork-api:latest
         build: .
         container_name: petwork-srv
+        environment: 
+            - MONGO_DB_URL=${MONGO_DB_URL}
         ports:
             - 3000:3000

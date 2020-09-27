@@ -15,8 +15,7 @@ import { UsersModule } from './users/users.module';
     }),
     TypeOrmModule.forRoot({
       type: 'mongodb',
-      url:
-        'mongodb+srv://mongo-petwork-admin:bMVAHZkO6ja8pg4A@cluster0.z4vfi.gcp.mongodb.net/petwork?retryWrites=true&w=majority',
+      url: process.env.MONGO_DB_URL,
       entities: [join(__dirname, '**/**.model{.ts,.js}')],
       synchronize: true,
       useNewUrlParser: true,
