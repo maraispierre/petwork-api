@@ -15,12 +15,12 @@ import { UsersModule } from './users/users.module';
     }),
     TypeOrmModule.forRoot({
       type: 'mongodb',
-      url: 'mongodb://127.0.0.1:27017',
+      url: process.env.MONGO_DB_URL,
       entities: [join(__dirname, '**/**.model{.ts,.js}')],
       synchronize: true,
       useNewUrlParser: true,
       logging: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
     }),
     AuthModule,
     UsersModule,
