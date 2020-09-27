@@ -10,4 +10,16 @@ export class SubscriptionInput {
   firstname: string;
   @Field()
   lastname: string;
+
+  constructor(
+    email: string,
+    password: string,
+    firstname: string,
+    lastname: string,
+  ) {
+    this.email = email;
+    this.password = password;
+    this.firstname = firstname;
+    this.lastname = lastname;
+  }
 }
