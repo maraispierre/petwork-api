@@ -1,4 +1,5 @@
 # PETWORK API
+![Petwork CI](https://github.com/maraispierre/petwork-api/workflows/Petwork%20CI/badge.svg)
 
 ## Description
 
