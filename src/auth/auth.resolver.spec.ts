@@ -1,6 +1,6 @@
 import { JwtService } from '@nestjs/jwt';
 import { AuthenticationError } from 'apollo-server-express';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from 'src/users/services/users.service';
 import { AuthResolver } from './auth.resolver';
 import { AuthService } from './auth.service';
 import { LoginInput } from './inputs/login.input';

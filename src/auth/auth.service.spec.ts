@@ -1,5 +1,5 @@
 import { JwtModuleOptions, JwtService } from '@nestjs/jwt';
-import { UsersService } from '../users/users.service';
+import { UsersService } from '../users/services/users.service';
 import { AuthService } from './auth.service';
 
 describe('AuthService', () => {

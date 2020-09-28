@@ -1,10 +1,10 @@
 import { ValidationError } from 'apollo-server-express';
 import { Repository } from 'typeorm';
-import { SubscriptionInput } from './inputs/subscription.input';
-import { User } from './models/user.model';
-import { SubscriptionService } from './subscription.service';
+import { SubscriptionInput } from '../inputs/subscription.input';
+import { User } from '../models/user.model';
+import { SubscriptionManager } from './subscription-manager.service';
 
-describe('SubscriptionService', () => {
+describe('SubscriptionManager', () => {
   const EMAIL = 'test@test.com';
   const PASSWORD = 'password';
   const FIRSTNAME = 'test';
@@ -15,11 +15,11 @@ describe('SubscriptionService', () => {
     '$2b$10$eUKaqwGWzThQePOXTefHzOOqcwZYAIszNmfO7D58vIqXqlO4vZiVG';
 
   let usersRepository: Repository<User>;
-  let subscriptionService: SubscriptionService;
+  let subscriptionManager: SubscriptionManager;
 
   beforeEach(async () => {
     usersRepository = new Repository<User>();
-    subscriptionService = new SubscriptionService(usersRepository);
+    subscriptionManager = new SubscriptionManager(usersRepository);
   });
 
   describe('subscription', () => {
@@ -36,9 +36,7 @@ describe('SubscriptionService', () => {
         FIRSTNAME,
         LASTNAME,
       );
-      const subscriber = await subscriptionService.subscription(
-        subscriptionInput,
-      );
+      const subscriber = await subscriptionManager.subscribe(subscriptionInput);
 
       expect(subscriber.email).toEqual(EMAIL);
       expect(subscriber.password).toEqual(HASHED_PASSWORD);
@@ -63,12 +61,8 @@ describe('SubscriptionService', () => {
         LASTNAME,
       );
 
-      const subscriptionFunction = async () => {
-        return await subscriptionService.subscription(subscriptionInput);
-      };
-
       expect(
-        subscriptionService.subscription(subscriptionInput),
+        subscriptionManager.subscribe(subscriptionInput),
       ).rejects.toThrowError(ValidationError);
     });
   });

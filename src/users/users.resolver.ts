@@ -1,14 +1,14 @@
 import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 import { SubscriptionInput } from './inputs/subscription.input';
 import { User } from './models/user.model';
-import { SubscriptionService } from './subscription.service';
-import { UsersService } from './users.service';
+import { SubscriptionManager } from './services/subscription-manager.service';
+import { UsersService } from './services/users.service';
 
 @Resolver(of => User)
 export class UsersResolver {
   constructor(
     private readonly usersService: UsersService,
-    private readonly subscriptionService: SubscriptionService,
+    private readonly subscriptionManager: SubscriptionManager,
   ) {}
 
   @Query(/* istanbul ignore next */ returns => User)
@@ -20,6 +20,6 @@ export class UsersResolver {
   async subscription(
     @Args('subscription') subscription: SubscriptionInput,
   ): Promise<User> {
-    return this.subscriptionService.subscription(subscription);
+    return this.subscriptionManager.subscribe(subscription);
   }
 }
