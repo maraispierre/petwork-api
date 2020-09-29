@@ -33,7 +33,7 @@ describe('UsersResolver', () => {
     });
   });
 
-  describe('subscription', () => {
+  describe('subscribe', () => {
     it('should return user', async () => {
       const user = new User(EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
 
@@ -47,7 +47,7 @@ describe('UsersResolver', () => {
         FIRSTNAME,
         LASTNAME,
       );
-      expect(await usersResolver.subscription(subscriptionInput)).toStrictEqual(
+      expect(await usersResolver.subscribe(subscriptionInput)).toStrictEqual(
         user,
       );
     });

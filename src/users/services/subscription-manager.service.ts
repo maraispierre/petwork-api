@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { SubscriptionInput } from '../inputs/subscription.input';
 import { User } from '../models/user.model';
 import * as bcrypt from 'bcrypt';
+import { globalConstants } from '../../constant';
 
 @Injectable()
 export class SubscriptionManager {
@@ -18,7 +19,10 @@ export class SubscriptionManager {
       throw new ValidationError('Email already exists');
     }
 
-    const hashedPassword = await bcrypt.hash(subscription.password, 10);
+    const hashedPassword = await bcrypt.hash(
+      subscription.password,
+      globalConstants.bcryptSaltRounds,
+    );
 
     const user = new User(
       subscription.email,

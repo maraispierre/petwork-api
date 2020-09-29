@@ -17,7 +17,7 @@ export class UsersResolver {
   }
 
   @Mutation(/* istanbul ignore next */ returns => User)
-  async subscription(
+  async subscribe(
     @Args('subscription') subscription: SubscriptionInput,
   ): Promise<User> {
     return this.subscriptionManager.subscribe(subscription);

@@ -20,7 +20,7 @@ type Query {
 }
 
 type Mutation {
-  subscription(subscription: SubscriptionInput!): User!
+  subscribe(subscription: SubscriptionInput!): User!
   login(login: LoginInput!): JwtToken!
 }
 

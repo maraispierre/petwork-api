@@ -1,7 +1,5 @@
-import { Injectable } from '@nestjs/common';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Column, Entity, ObjectIdColumn } from 'typeorm';
-import { SubscriptionInput } from '../inputs/subscription.input';
 
 @ObjectType()
 @Entity()

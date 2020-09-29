@@ -8,6 +8,6 @@ import { SubscriptionManager } from './services/subscription-manager.service';
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
   providers: [UsersResolver, UsersService, SubscriptionManager],
-  exports: [UsersService],
+  exports: [TypeOrmModule],
 })
 export class UsersModule {}

@@ -14,7 +14,7 @@ import { UsersModule } from './users/users.module';
     TypeOrmModule.forRoot({
       type: 'mongodb',
       url: process.env.MONGO_DB_URL,
-      entities: [join(__dirname, '**/**.model{.ts,.js}')],
+      entities: [join(__dirname, '**', '*.model.{ts,js}')],
       synchronize: true,
       useNewUrlParser: true,
       logging: true,
