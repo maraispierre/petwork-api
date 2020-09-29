@@ -16,7 +16,7 @@ type JwtToken {
 }
 
 type Query {
-  user(email: String!): User!
+  showProfile(_id: String!): User!
 }
 
 type Mutation {
