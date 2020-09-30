@@ -6,6 +6,7 @@ import { ProfileDisplayer } from './services/profile-displayer.service';
 import { ProfileUpdater } from './services/profile-updater.service';
 import { SubscriptionManager } from './services/subscription-manager.service';
 import { UsersResolver } from './users.resolver';
+import { Suspender } from './services/suspender.service';
 
 describe('UsersResolver', () => {
   const _ID = 'test';
@@ -19,15 +20,18 @@ describe('UsersResolver', () => {
   let subscriptionManager: SubscriptionManager;
   let profileDisplayer: ProfileDisplayer;
   let profileUpdater: ProfileUpdater;
+  let suspender: Suspender;
 
   beforeEach(async () => {
     subscriptionManager = new SubscriptionManager(usersRepository);
     profileDisplayer = new ProfileDisplayer(usersRepository);
     profileUpdater = new ProfileUpdater(usersRepository);
+    suspender = new Suspender(usersRepository);
     usersResolver = new UsersResolver(
       subscriptionManager,
       profileDisplayer,
       profileUpdater,
+      suspender,
     );
   });
 
@@ -70,6 +74,16 @@ describe('UsersResolver', () => {
       const profile = new ProfileInput(_ID, FIRSTNAME, LASTNAME);
 
       expect(await usersResolver.updateProfile(profile)).toStrictEqual(user);
+    });
+  });
+
+  describe('suspend', () => {
+    it('should return user', async () => {
+      const user = new User(EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
+
+      jest.spyOn(suspender, 'suspend').mockImplementation(async () => user);
+
+      expect(await usersResolver.suspend(_ID)).toStrictEqual(user);
     });
   });
 });

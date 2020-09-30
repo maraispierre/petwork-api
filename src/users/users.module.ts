@@ -5,6 +5,7 @@ import { User } from './models/user.model';
 import { SubscriptionManager } from './services/subscription-manager.service';
 import { ProfileDisplayer } from './services/profile-displayer.service';
 import { ProfileUpdater } from './services/profile-updater.service';
+import { Suspender } from './services/suspender.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
@@ -13,6 +14,7 @@ import { ProfileUpdater } from './services/profile-updater.service';
     SubscriptionManager,
     ProfileDisplayer,
     ProfileUpdater,
+    Suspender,
   ],
   exports: [TypeOrmModule],
 })

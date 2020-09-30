@@ -46,4 +46,8 @@ export class User {
     this.firstname = profile.firstname;
     this.lastname = profile.lastname;
   }
+
+  suspend(): void {
+    this.isSuspended = true;
+  }
 }
