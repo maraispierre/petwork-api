@@ -8,12 +8,12 @@ import { SubscriptionManager } from './services/subscription-manager.service';
 export class UsersResolver {
   constructor(
     private readonly subscriptionManager: SubscriptionManager,
-    private readonly profileDisplayer: ProfileDisplayer
+    private readonly profileDisplayer: ProfileDisplayer,
   ) {}
 
   @Query(/* istanbul ignore next */ returns => User)
-  async showProfile(@Args('_id') _id: string) : Promise<User> {
-      return this.profileDisplayer.show(_id);
+  async showProfile(@Args('_id') _id: string): Promise<User> {
+    return this.profileDisplayer.show(_id);
   }
 
   @Mutation(/* istanbul ignore next */ returns => User)

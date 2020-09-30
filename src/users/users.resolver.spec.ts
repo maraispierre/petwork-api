@@ -15,7 +15,7 @@ describe('UsersResolver', () => {
   let usersResolver: UsersResolver;
   let usersRepository: Repository<User>;
   let subscriptionManager: SubscriptionManager;
-  let profileDisplayer: ProfileDisplayer
+  let profileDisplayer: ProfileDisplayer;
 
   beforeEach(async () => {
     subscriptionManager = new SubscriptionManager(usersRepository);
@@ -47,13 +47,9 @@ describe('UsersResolver', () => {
     it('should return user', async () => {
       const user = new User(EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
 
-      jest
-        .spyOn(profileDisplayer, 'show')
-        .mockImplementation(async () => user);
+      jest.spyOn(profileDisplayer, 'show').mockImplementation(async () => user);
 
-      expect(await usersResolver.showProfile(_ID)).toStrictEqual(
-        user
-      );
+      expect(await usersResolver.showProfile(_ID)).toStrictEqual(user);
     });
   });
 });

@@ -18,8 +18,8 @@ export class ProfileDisplayer {
   async show(_id: string): Promise<User> {
     const user = await this.usersRepository.findOne(_id);
 
-    if(user instanceof User) {
-        return user;
+    if (user instanceof User) {
+      return user;
     }
 
     throw new ValidationError('Missing user with id :' + _id);
