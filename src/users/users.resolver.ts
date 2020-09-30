@@ -1,7 +1,9 @@
 import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
+import { ProfileInput } from './inputs/profile.input';
 import { SubscriptionInput } from './inputs/subscription.input';
 import { User } from './models/user.model';
 import { ProfileDisplayer } from './services/profile-displayer.service';
+import { ProfileUpdater } from './services/profile-updater.service';
 import { SubscriptionManager } from './services/subscription-manager.service';
 
 @Resolver(of => User)
@@ -9,6 +11,7 @@ export class UsersResolver {
   constructor(
     private readonly subscriptionManager: SubscriptionManager,
     private readonly profileDisplayer: ProfileDisplayer,
+    private readonly profileUpdater: ProfileUpdater,
   ) {}
 
   @Query(/* istanbul ignore next */ returns => User)
@@ -21,5 +24,10 @@ export class UsersResolver {
     @Args('subscription') subscription: SubscriptionInput,
   ): Promise<User> {
     return this.subscriptionManager.subscribe(subscription);
+  }
+
+  @Mutation(/* istanbul ignore next */ returns => User)
+  async updateProfile(@Args('profile') profile: ProfileInput): Promise<User> {
+    return this.profileUpdater.update(profile);
   }
 }

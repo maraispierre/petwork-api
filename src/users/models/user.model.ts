@@ -1,5 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Column, Entity, ObjectIdColumn } from 'typeorm';
+import { ProfileInput } from '../inputs/profile.input';
 
 @ObjectType()
 @Entity()
@@ -39,5 +40,10 @@ export class User {
     this.firstname = firstname;
     this.lastname = lastname;
     this.isSuspended = false;
+  }
+
+  updateProfile(profile: ProfileInput): void {
+    this.firstname = profile.firstname;
+    this.lastname = profile.lastname;
   }
 }
