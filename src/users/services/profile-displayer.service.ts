@@ -1,12 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AuthenticationError, ValidationError } from 'apollo-server-express';
+import { ValidationError } from 'apollo-server-express';
 import { Repository } from 'typeorm';
-import { SubscriptionInput } from '../inputs/subscription.input';
 import { User } from '../models/user.model';
-import * as bcrypt from 'bcrypt';
-import { globalConstants } from '../../constant';
-import { EmptyError } from 'rxjs';
 
 @Injectable()
 export class ProfileDisplayer {
