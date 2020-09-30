@@ -4,7 +4,11 @@
 
 type User {
   _id: String!
-  email: String
+  email: String!
+  password: String!
+  firstname: String!
+  lastname: String!
+  isSuspended: Boolean!
 }
 
 type JwtToken {
@@ -12,11 +16,26 @@ type JwtToken {
 }
 
 type Query {
-  user(email: String!): User!
+  showProfile(_id: String!): User!
 }
 
 type Mutation {
+  subscribe(subscription: SubscriptionInput!): User!
+  updateProfile(profile: ProfileInput!): User!
   login(login: LoginInput!): JwtToken!
+}
+
+input SubscriptionInput {
+  email: String!
+  password: String!
+  firstname: String!
+  lastname: String!
+}
+
+input ProfileInput {
+  _id: String!
+  firstname: String!
+  lastname: String!
 }
 
 input LoginInput {

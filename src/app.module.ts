@@ -2,8 +2,6 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 
@@ -16,7 +14,7 @@ import { UsersModule } from './users/users.module';
     TypeOrmModule.forRoot({
       type: 'mongodb',
       url: process.env.MONGO_DB_URL,
-      entities: [join(__dirname, '**/**.model{.ts,.js}')],
+      entities: [join(__dirname, '**', '*.model.{ts,js}')],
       synchronize: true,
       useNewUrlParser: true,
       logging: true,
@@ -25,7 +23,7 @@ import { UsersModule } from './users/users.module';
     AuthModule,
     UsersModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

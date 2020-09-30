@@ -1,13 +1,33 @@
-import { Resolver, Query, Args } from '@nestjs/graphql';
+import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
+import { ProfileInput } from './inputs/profile.input';
+import { SubscriptionInput } from './inputs/subscription.input';
 import { User } from './models/user.model';
-import { UsersService } from './users.service';
+import { ProfileDisplayer } from './services/profile-displayer.service';
+import { ProfileUpdater } from './services/profile-updater.service';
+import { SubscriptionManager } from './services/subscription-manager.service';
 
 @Resolver(of => User)
 export class UsersResolver {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly subscriptionManager: SubscriptionManager,
+    private readonly profileDisplayer: ProfileDisplayer,
+    private readonly profileUpdater: ProfileUpdater,
+  ) {}
 
   @Query(/* istanbul ignore next */ returns => User)
-  async user(@Args('email') email: string) {
-    return this.usersService.findOne(email);
+  async showProfile(@Args('_id') _id: string): Promise<User> {
+    return this.profileDisplayer.show(_id);
+  }
+
+  @Mutation(/* istanbul ignore next */ returns => User)
+  async subscribe(
+    @Args('subscription') subscription: SubscriptionInput,
+  ): Promise<User> {
+    return this.subscriptionManager.subscribe(subscription);
+  }
+
+  @Mutation(/* istanbul ignore next */ returns => User)
+  async updateProfile(@Args('profile') profile: ProfileInput): Promise<User> {
+    return this.profileUpdater.update(profile);
   }
 }
