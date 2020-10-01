@@ -7,6 +7,8 @@ import { ProfileUpdater } from './services/profile-updater.service';
 import { SubscriptionManager } from './services/subscription-manager.service';
 import { Suspender } from './services/suspender.service';
 import { PasswordUpdater } from './services/password-updater.service';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Resolver(of => User)
 export class UsersResolver {
@@ -18,11 +20,6 @@ export class UsersResolver {
     private readonly passwordUpdater: PasswordUpdater,
   ) {}
 
-  @Query(/* istanbul ignore next */ returns => User)
-  async showProfile(@Args('_id') _id: string): Promise<User> {
-    return this.profileDisplayer.show(_id);
-  }
-
   @Mutation(/* istanbul ignore next */ returns => User)
   async subscribe(
     @Args('subscription') subscription: SubscriptionInput,
@@ -30,16 +27,25 @@ export class UsersResolver {
     return this.subscriptionManager.subscribe(subscription);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Query(/* istanbul ignore next */ returns => User)
+  async showProfile(@Args('_id') _id: string): Promise<User> {
+    return this.profileDisplayer.show(_id);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Mutation(/* istanbul ignore next */ returns => User)
   async updateProfile(@Args('profile') profile: ProfileInput): Promise<User> {
     return this.profileUpdater.update(profile);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Mutation(/* istanbul ignore next */ returns => User)
   async suspend(@Args('_id') _id: string): Promise<User> {
     return this.suspender.suspend(_id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Mutation(/* istanbul ignore next */ returns => User)
   async updatePassword(
     @Args('_id') _id: string,
