@@ -9,7 +9,7 @@ describe('Suspender', () => {
   const PASSWORD = 'test';
   const FIRSTNAME = 'test';
   const LASTNAME = 'TEST';
-  const IS_SUSPENDED = false;
+  const IS_SUSPENDED = true;
 
   let usersRepository: Repository<User>;
   let suspender: Suspender;
@@ -22,13 +22,12 @@ describe('Suspender', () => {
   describe('suspend', () => {
     it('should return an user', async () => {
       const mockedUser = new User(EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
-      const mockedUpdatedUser = new User(EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
       jest
         .spyOn(usersRepository, 'findOne')
         .mockImplementation(async () => mockedUser);
       jest
         .spyOn(usersRepository, 'save')
-        .mockImplementation(async () => mockedUpdatedUser);
+        .mockImplementation(async () => mockedUser);
 
       const suspendUser = await suspender.suspend(_ID);
 

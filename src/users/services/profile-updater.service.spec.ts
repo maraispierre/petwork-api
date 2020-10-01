@@ -26,18 +26,12 @@ describe('ProfileUpdater', () => {
   describe('update', () => {
     it('should return an user', async () => {
       const mockedUser = new User(EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
-      const mockedUpdatedUser = new User(
-        EMAIL,
-        PASSWORD,
-        NEW_FIRSTNAME,
-        NEW_LASTNAME,
-      );
       jest
         .spyOn(usersRepository, 'findOne')
         .mockImplementation(async () => mockedUser);
       jest
         .spyOn(usersRepository, 'save')
-        .mockImplementation(async () => mockedUpdatedUser);
+        .mockImplementation(async () => mockedUser);
 
       const profile = new ProfileInput(_ID, NEW_FIRSTNAME, NEW_LASTNAME);
 
