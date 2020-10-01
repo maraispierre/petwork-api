@@ -1,29 +1,25 @@
 import { ValidationError } from 'apollo-server-express';
 import { Repository } from 'typeorm';
-import { ProfileInput } from '../inputs/profile.input';
 import { User } from '../models/user.model';
-import { ProfileUpdater } from './profile-updater.service';
+import { Suspender } from './suspender.service';
 
-describe('ProfileUpdater', () => {
+describe('Suspender', () => {
   const _ID = 'test';
   const EMAIL = 'test@test.com';
   const PASSWORD = 'test';
   const FIRSTNAME = 'test';
   const LASTNAME = 'TEST';
-  const IS_SUSPENDED = false;
-
-  const NEW_FIRSTNAME = 'test 2';
-  const NEW_LASTNAME = 'TEST 2';
+  const IS_SUSPENDED = true;
 
   let usersRepository: Repository<User>;
-  let profileUpdater: ProfileUpdater;
+  let suspender: Suspender;
 
   beforeEach(async () => {
     usersRepository = new Repository<User>();
-    profileUpdater = new ProfileUpdater(usersRepository);
+    suspender = new Suspender(usersRepository);
   });
 
-  describe('update', () => {
+  describe('suspend', () => {
     it('should return an user', async () => {
       const mockedUser = new User(EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
       jest
@@ -33,14 +29,12 @@ describe('ProfileUpdater', () => {
         .spyOn(usersRepository, 'save')
         .mockImplementation(async () => mockedUser);
 
-      const profile = new ProfileInput(_ID, NEW_FIRSTNAME, NEW_LASTNAME);
+      const suspendUser = await suspender.suspend(_ID);
 
-      const updatedProfile = await profileUpdater.update(profile);
-
-      expect(updatedProfile.email).toEqual(EMAIL);
-      expect(updatedProfile.firstname).toEqual(NEW_FIRSTNAME);
-      expect(updatedProfile.lastname).toEqual(NEW_LASTNAME);
-      expect(updatedProfile.isSuspended).toEqual(IS_SUSPENDED);
+      expect(suspendUser.email).toEqual(EMAIL);
+      expect(suspendUser.firstname).toEqual(FIRSTNAME);
+      expect(suspendUser.lastname).toEqual(LASTNAME);
+      expect(suspendUser.isSuspended).toEqual(IS_SUSPENDED);
     });
 
     it('should throw validation error with findOne', async () => {
@@ -48,11 +42,7 @@ describe('ProfileUpdater', () => {
         .spyOn(usersRepository, 'findOne')
         .mockImplementation(async () => undefined);
 
-      const profile = new ProfileInput(_ID, NEW_FIRSTNAME, NEW_LASTNAME);
-
-      expect(profileUpdater.update(profile)).rejects.toThrowError(
-        ValidationError,
-      );
+      expect(suspender.suspend(_ID)).rejects.toThrowError(ValidationError);
     });
   });
 });

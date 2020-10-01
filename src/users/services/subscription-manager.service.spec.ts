@@ -3,6 +3,7 @@ import { Repository } from 'typeorm';
 import { SubscriptionInput } from '../inputs/subscription.input';
 import { User } from '../models/user.model';
 import { SubscriptionManager } from './subscription-manager.service';
+import * as bcrypt from 'bcrypt';
 
 describe('SubscriptionManager', () => {
   const EMAIL = 'test@test.com';
@@ -10,9 +11,6 @@ describe('SubscriptionManager', () => {
   const FIRSTNAME = 'test';
   const LASTNAME = 'TEST';
   const IS_SUSPENDED = false;
-
-  const HASHED_PASSWORD =
-    '$2b$10$eUKaqwGWzThQePOXTefHzOOqcwZYAIszNmfO7D58vIqXqlO4vZiVG';
 
   let usersRepository: Repository<User>;
   let subscriptionManager: SubscriptionManager;
@@ -24,22 +22,23 @@ describe('SubscriptionManager', () => {
 
   describe('subscription', () => {
     it('should subscribe an user', async () => {
-      const mockedUser = new User(EMAIL, HASHED_PASSWORD, FIRSTNAME, LASTNAME);
-      jest
-        .spyOn(usersRepository, 'save')
-        .mockImplementation(async () => mockedUser);
-      jest.spyOn(usersRepository, 'find').mockImplementation(async () => []);
-
-      const subscriptionInput = new SubscriptionInput(
+      const subscription = new SubscriptionInput(
         EMAIL,
         PASSWORD,
         FIRSTNAME,
         LASTNAME,
       );
-      const subscriber = await subscriptionManager.subscribe(subscriptionInput);
+      const mockedUser = User.subscribe(subscription);
+
+      jest
+        .spyOn(usersRepository, 'save')
+        .mockImplementation(async () => mockedUser);
+      jest.spyOn(usersRepository, 'find').mockImplementation(async () => []);
+
+      const subscriber = await subscriptionManager.subscribe(subscription);
 
       expect(subscriber.email).toEqual(EMAIL);
-      expect(subscriber.password).toEqual(HASHED_PASSWORD);
+      expect(await bcrypt.compare(PASSWORD, subscriber.password)).toEqual(true);
       expect(subscriber.firstname).toEqual(FIRSTNAME);
       expect(subscriber.lastname).toEqual(LASTNAME);
       expect(subscriber.isSuspended).toEqual(IS_SUSPENDED);

@@ -4,8 +4,6 @@ import { ValidationError } from 'apollo-server-express';
 import { Repository } from 'typeorm';
 import { SubscriptionInput } from '../inputs/subscription.input';
 import { User } from '../models/user.model';
-import * as bcrypt from 'bcrypt';
-import { globalConstants } from '../../constant';
 
 @Injectable()
 export class SubscriptionManager {
@@ -19,17 +17,7 @@ export class SubscriptionManager {
       throw new ValidationError('Email already exists');
     }
 
-    const hashedPassword = await bcrypt.hash(
-      subscription.password,
-      globalConstants.bcryptSaltRounds,
-    );
-
-    const user = new User(
-      subscription.email,
-      hashedPassword,
-      subscription.firstname,
-      subscription.lastname,
-    );
+    const user = await User.subscribe(subscription);
 
     return this.usersRepository.save(user);
   }
@@ -39,10 +27,6 @@ export class SubscriptionManager {
       where: { email: email },
     });
 
-    if (users.length !== 0) {
-      return true;
-    }
-
-    return false;
+    return users.length !== 0;
   }
 }

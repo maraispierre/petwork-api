@@ -22,6 +22,8 @@ type Query {
 type Mutation {
   subscribe(subscription: SubscriptionInput!): User!
   updateProfile(profile: ProfileInput!): User!
+  suspend(_id: String!): User!
+  updatePassword(password: String!, _id: String!): User!
   login(login: LoginInput!): JwtToken!
 }
 
