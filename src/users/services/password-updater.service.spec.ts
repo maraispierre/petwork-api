@@ -1,26 +1,24 @@
 import { ValidationError } from 'apollo-server-express';
 import { Repository } from 'typeorm';
-import { ProfileInput } from '../inputs/profile.input';
 import { User } from '../models/user.model';
-import { ProfileUpdater } from './profile-updater.service';
+import { PasswordUpdater } from './password-updater.service';
+import * as bcrypt from 'bcrypt';
 
-describe('ProfileUpdater', () => {
+describe('PasswordUpdater', () => {
   const _ID = 'test';
   const EMAIL = 'test@test.com';
   const PASSWORD = 'test';
   const FIRSTNAME = 'test';
   const LASTNAME = 'TEST';
-  const IS_SUSPENDED = false;
 
-  const NEW_FIRSTNAME = 'test 2';
-  const NEW_LASTNAME = 'TEST 2';
+  const NEW_PASSWORD = 'test2';
 
   let usersRepository: Repository<User>;
-  let profileUpdater: ProfileUpdater;
+  let passwordUpdater: PasswordUpdater;
 
   beforeEach(async () => {
     usersRepository = new Repository<User>();
-    profileUpdater = new ProfileUpdater(usersRepository);
+    passwordUpdater = new PasswordUpdater(usersRepository);
   });
 
   describe('update', () => {
@@ -33,14 +31,11 @@ describe('ProfileUpdater', () => {
         .spyOn(usersRepository, 'save')
         .mockImplementation(async () => mockedUser);
 
-      const profile = new ProfileInput(_ID, NEW_FIRSTNAME, NEW_LASTNAME);
+      const updatedUser = await passwordUpdater.update(_ID, NEW_PASSWORD);
 
-      const updatedProfile = await profileUpdater.update(profile);
-
-      expect(updatedProfile.email).toEqual(EMAIL);
-      expect(updatedProfile.firstname).toEqual(NEW_FIRSTNAME);
-      expect(updatedProfile.lastname).toEqual(NEW_LASTNAME);
-      expect(updatedProfile.isSuspended).toEqual(IS_SUSPENDED);
+      expect(await bcrypt.compare(NEW_PASSWORD, updatedUser.password)).toEqual(
+        true,
+      );
     });
 
     it('should throw validation error with findOne', async () => {
@@ -48,9 +43,7 @@ describe('ProfileUpdater', () => {
         .spyOn(usersRepository, 'findOne')
         .mockImplementation(async () => undefined);
 
-      const profile = new ProfileInput(_ID, NEW_FIRSTNAME, NEW_LASTNAME);
-
-      expect(profileUpdater.update(profile)).rejects.toThrowError(
+      expect(passwordUpdater.update(_ID, NEW_PASSWORD)).rejects.toThrowError(
         ValidationError,
       );
     });

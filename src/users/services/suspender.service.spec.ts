@@ -32,7 +32,6 @@ describe('Suspender', () => {
       const suspendUser = await suspender.suspend(_ID);
 
       expect(suspendUser.email).toEqual(EMAIL);
-      expect(suspendUser.password).toEqual(PASSWORD);
       expect(suspendUser.firstname).toEqual(FIRSTNAME);
       expect(suspendUser.lastname).toEqual(LASTNAME);
       expect(suspendUser.isSuspended).toEqual(IS_SUSPENDED);
@@ -41,17 +40,7 @@ describe('Suspender', () => {
     it('should throw validation error with findOne', async () => {
       jest
         .spyOn(usersRepository, 'findOne')
-        .mockImplementation(async () => null);
-
-      expect(suspender.suspend(_ID)).rejects.toThrowError(ValidationError);
-    });
-
-    it('should throw validation error with save', async () => {
-      const mockedUser = new User(EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
-      jest
-        .spyOn(usersRepository, 'findOne')
-        .mockImplementation(async () => mockedUser);
-      jest.spyOn(usersRepository, 'save').mockImplementation(async () => null);
+        .mockImplementation(async () => undefined);
 
       expect(suspender.suspend(_ID)).rejects.toThrowError(ValidationError);
     });

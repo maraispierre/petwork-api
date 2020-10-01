@@ -53,12 +53,10 @@ describe('AuthService', () => {
         email: EMAIL_LOGIN,
         password: PASSWORD_LOGIN,
       };
-      const user = null;
-      const result = { access_token: TOKEN_TEST };
 
       jest
         .spyOn(usersRepository, 'findOne')
-        .mockImplementation(async () => null);
+        .mockImplementation(async () => undefined);
       jest.spyOn(jwtService, 'sign').mockImplementation(() => TOKEN_TEST);
 
       expect(authService.login(login)).rejects.toThrowError(

@@ -6,6 +6,7 @@ import { SubscriptionManager } from './services/subscription-manager.service';
 import { ProfileDisplayer } from './services/profile-displayer.service';
 import { ProfileUpdater } from './services/profile-updater.service';
 import { Suspender } from './services/suspender.service';
+import { PasswordUpdater } from './services/password-updater.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
@@ -15,6 +16,7 @@ import { Suspender } from './services/suspender.service';
     ProfileDisplayer,
     ProfileUpdater,
     Suspender,
+    PasswordUpdater,
   ],
   exports: [TypeOrmModule],
 })

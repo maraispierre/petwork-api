@@ -1,6 +1,9 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Column, Entity, ObjectIdColumn } from 'typeorm';
 import { ProfileInput } from '../inputs/profile.input';
+import * as bcrypt from 'bcrypt';
+import { globalConstants } from '../../constant';
+import { SubscriptionInput } from '../inputs/subscription.input';
 
 @ObjectType()
 @Entity()
@@ -14,7 +17,7 @@ export class User {
   email: string;
 
   @Field()
-  @Column()
+  @Column({ nullable: false })
   password: string;
 
   @Field()
@@ -42,6 +45,20 @@ export class User {
     this.isSuspended = false;
   }
 
+  static async subscribe(subscription: SubscriptionInput) {
+    const hashedPassword = await bcrypt.hash(
+      subscription.password,
+      globalConstants.bcryptSaltRounds,
+    );
+
+    return new User(
+      subscription.email,
+      hashedPassword,
+      subscription.firstname,
+      subscription.lastname,
+    );
+  }
+
   updateProfile(profile: ProfileInput): void {
     this.firstname = profile.firstname;
     this.lastname = profile.lastname;
@@ -49,5 +66,9 @@ export class User {
 
   suspend(): void {
     this.isSuspended = true;
+  }
+
+  updatePassword(password: string): void {
+    this.password = bcrypt.hashSync(password, globalConstants.bcryptSaltRounds);
   }
 }

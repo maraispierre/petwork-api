@@ -7,6 +7,7 @@ import { ProfileUpdater } from './services/profile-updater.service';
 import { SubscriptionManager } from './services/subscription-manager.service';
 import { UsersResolver } from './users.resolver';
 import { Suspender } from './services/suspender.service';
+import { PasswordUpdater } from './services/password-updater.service';
 
 describe('UsersResolver', () => {
   const _ID = 'test';
@@ -21,17 +22,20 @@ describe('UsersResolver', () => {
   let profileDisplayer: ProfileDisplayer;
   let profileUpdater: ProfileUpdater;
   let suspender: Suspender;
+  let passwordUpdater: PasswordUpdater;
 
   beforeEach(async () => {
     subscriptionManager = new SubscriptionManager(usersRepository);
     profileDisplayer = new ProfileDisplayer(usersRepository);
     profileUpdater = new ProfileUpdater(usersRepository);
     suspender = new Suspender(usersRepository);
+    passwordUpdater = new PasswordUpdater(usersRepository);
     usersResolver = new UsersResolver(
       subscriptionManager,
       profileDisplayer,
       profileUpdater,
       suspender,
+      passwordUpdater,
     );
   });
 
@@ -49,9 +53,7 @@ describe('UsersResolver', () => {
         FIRSTNAME,
         LASTNAME,
       );
-      expect(await usersResolver.subscribe(subscriptionInput)).toStrictEqual(
-        user,
-      );
+      expect(await usersResolver.subscribe(subscriptionInput)).toEqual(user);
     });
   });
 
@@ -61,7 +63,7 @@ describe('UsersResolver', () => {
 
       jest.spyOn(profileDisplayer, 'show').mockImplementation(async () => user);
 
-      expect(await usersResolver.showProfile(_ID)).toStrictEqual(user);
+      expect(await usersResolver.showProfile(_ID)).toEqual(user);
     });
   });
 
@@ -73,7 +75,7 @@ describe('UsersResolver', () => {
 
       const profile = new ProfileInput(_ID, FIRSTNAME, LASTNAME);
 
-      expect(await usersResolver.updateProfile(profile)).toStrictEqual(user);
+      expect(await usersResolver.updateProfile(profile)).toEqual(user);
     });
   });
 
@@ -83,7 +85,19 @@ describe('UsersResolver', () => {
 
       jest.spyOn(suspender, 'suspend').mockImplementation(async () => user);
 
-      expect(await usersResolver.suspend(_ID)).toStrictEqual(user);
+      expect(await usersResolver.suspend(_ID)).toEqual(user);
+    });
+  });
+
+  describe('updatePassword', () => {
+    it('should return user', async () => {
+      const user = new User(EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
+
+      jest
+        .spyOn(passwordUpdater, 'update')
+        .mockImplementation(async () => user);
+
+      expect(await usersResolver.updatePassword(_ID, PASSWORD)).toEqual(user);
     });
   });
 });

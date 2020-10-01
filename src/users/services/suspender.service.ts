@@ -16,11 +16,7 @@ export class Suspender {
 
     if (user instanceof User) {
       user.suspend();
-      const updatedUser = await this.usersRepository.save(user);
-
-      if (updatedUser instanceof User) {
-        return updatedUser;
-      }
+      return this.usersRepository.save(user);
     }
 
     throw new ValidationError('Missing user with id :' + _id);
