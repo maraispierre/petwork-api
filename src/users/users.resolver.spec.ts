@@ -8,6 +8,8 @@ import { SubscriptionManager } from './services/subscription-manager.service';
 import { UsersResolver } from './users.resolver';
 import { Suspender } from './services/suspender.service';
 import { PasswordUpdater } from './services/password-updater.service';
+import { EmailSenderInterface } from '../emails/interfaces/email-sender.interface';
+import { EmailsSender } from '../emails/emails-sender.service';
 
 describe('UsersResolver', () => {
   const _ID = 'test';
@@ -18,6 +20,7 @@ describe('UsersResolver', () => {
 
   let usersResolver: UsersResolver;
   let usersRepository: Repository<User>;
+  let emailsSender: EmailsSender;
   let subscriptionManager: SubscriptionManager;
   let profileDisplayer: ProfileDisplayer;
   let profileUpdater: ProfileUpdater;
@@ -25,7 +28,10 @@ describe('UsersResolver', () => {
   let passwordUpdater: PasswordUpdater;
 
   beforeEach(async () => {
-    subscriptionManager = new SubscriptionManager(usersRepository);
+    subscriptionManager = new SubscriptionManager(
+      usersRepository,
+      emailsSender,
+    );
     profileDisplayer = new ProfileDisplayer(usersRepository);
     profileUpdater = new ProfileUpdater(usersRepository);
     suspender = new Suspender(usersRepository);
