@@ -16,12 +16,8 @@ export class SendinBlueSender {
 
     const sendEmail = new SibApiV3Sdk.SendEmail();
 
-    sendEmail.emailTo = ['piemarais@gmail.com'];
+    sendEmail.emailTo = [receiver];
 
-    try {
-      await apiInstance.sendTemplate(templateId, sendEmail);
-    } catch (e) {
-      console.log(e);
-    }
+    await apiInstance.sendTemplate(templateId, sendEmail);
   }
 }

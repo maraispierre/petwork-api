@@ -17,9 +17,5 @@ describe('EmailsSender', () => {
     it('should send a email', async () => {
       sendinBlueSender.sendEmail(1, 'test');
     });
-
-    it('should return an exception', async () => {
-      expect(sendinBlueSender.sendEmail(1, 'test')).rejects.toThrowError(Error);
-    });
   });
 });
