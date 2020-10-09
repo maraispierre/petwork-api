@@ -4,6 +4,8 @@ import { SubscriptionInput } from '../inputs/subscription.input';
 import { User } from '../models/user.model';
 import { SubscriptionManager } from './subscription-manager.service';
 import * as bcrypt from 'bcrypt';
+import { EmailsSender } from '../../emails/emails-sender.service';
+import { EmailSenderInterface } from '../../emails/interfaces/email-sender.interface';
 
 describe('SubscriptionManager', () => {
   const EMAIL = 'test@test.com';
@@ -12,12 +14,18 @@ describe('SubscriptionManager', () => {
   const LASTNAME = 'TEST';
   const IS_SUSPENDED = false;
 
+  let emailSenderInterface: EmailSenderInterface;
+  let emailsSender: EmailsSender;
   let usersRepository: Repository<User>;
   let subscriptionManager: SubscriptionManager;
 
   beforeEach(async () => {
     usersRepository = new Repository<User>();
-    subscriptionManager = new SubscriptionManager(usersRepository);
+    emailsSender = new EmailsSender(emailSenderInterface);
+    subscriptionManager = new SubscriptionManager(
+      usersRepository,
+      emailsSender,
+    );
   });
 
   describe('subscription', () => {
@@ -33,6 +41,7 @@ describe('SubscriptionManager', () => {
       jest
         .spyOn(usersRepository, 'save')
         .mockImplementation(async () => mockedUser);
+      jest.spyOn(emailsSender, 'sendEmail').mockImplementation();
       jest.spyOn(usersRepository, 'find').mockImplementation(async () => []);
 
       const subscriber = await subscriptionManager.subscribe(subscription);

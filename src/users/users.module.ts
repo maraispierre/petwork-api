@@ -7,9 +7,10 @@ import { ProfileDisplayer } from './services/profile-displayer.service';
 import { ProfileUpdater } from './services/profile-updater.service';
 import { Suspender } from './services/suspender.service';
 import { PasswordUpdater } from './services/password-updater.service';
+import { EmailsModule } from '../emails/emails.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User])],
+  imports: [TypeOrmModule.forFeature([User]), EmailsModule],
   providers: [
     UsersResolver,
     SubscriptionManager,
