@@ -4,19 +4,21 @@ import { User } from '../user.model';
 import { Register } from './register.service';
 import * as bcrypt from 'bcrypt';
 import { SubscriptionInput } from '../../../application/api/users/inputs/subscription.input';
+import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
 
 describe('Register', () => {
+  const _ID = 'ID';
   const EMAIL = 'test@test.com';
   const PASSWORD = 'password';
   const FIRSTNAME = 'test';
   const LASTNAME = 'TEST';
   const IS_SUSPENDED = false;
 
-  let usersRepository: Repository<User>;
+  let usersRepository: UsersRepository;
   let subscriptionManager: Register;
 
   beforeEach(async () => {
-    usersRepository = new Repository<User>();
+    usersRepository = new UsersRepository(new Repository<User>());
     subscriptionManager = new Register(usersRepository);
   });
 
@@ -33,7 +35,7 @@ describe('Register', () => {
       jest
         .spyOn(usersRepository, 'save')
         .mockImplementation(async () => mockedUser);
-      jest.spyOn(usersRepository, 'find').mockImplementation(async () => []);
+      jest.spyOn(usersRepository, 'findByEmail').mockImplementation(async () => []);
 
       const subscriber = await subscriptionManager.subscribe(subscription);
 
@@ -45,12 +47,12 @@ describe('Register', () => {
     });
 
     it('should throw validation error', async () => {
-      const mockedUser = new User(EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
+      const mockedUser = new User(_ID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
       jest
         .spyOn(usersRepository, 'save')
         .mockImplementation(async () => mockedUser);
       jest
-        .spyOn(usersRepository, 'find')
+        .spyOn(usersRepository, 'findByEmail')
         .mockImplementation(async () => [mockedUser]);
 
       const subscriptionInput = new SubscriptionInput(

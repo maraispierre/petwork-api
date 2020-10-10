@@ -2,6 +2,7 @@ import { ValidationError } from 'apollo-server-express';
 import { Repository } from 'typeorm';
 import { User } from '../user.model';
 import { ProfileDisplayer } from './profile-displayer.service';
+import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
 
 describe('ProfileDisplayer', () => {
   const _ID = 'test';
@@ -10,17 +11,17 @@ describe('ProfileDisplayer', () => {
   const FIRSTNAME = 'test';
   const LASTNAME = 'TEST';
 
-  let usersRepository: Repository<User>;
+  let usersRepository: UsersRepository;
   let profileDisplayer: ProfileDisplayer;
 
   beforeEach(async () => {
-    usersRepository = new Repository<User>();
+    usersRepository = new UsersRepository(new Repository<User>());
     profileDisplayer = new ProfileDisplayer(usersRepository);
   });
 
   describe('subscription', () => {
     it('should return an user', async () => {
-      const mockedUser = new User(EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
+      const mockedUser = new User(_ID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
       jest
         .spyOn(usersRepository, 'findOne')
         .mockImplementation(async () => mockedUser);

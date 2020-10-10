@@ -1,8 +1,9 @@
 import { ValidationError } from 'apollo-server-express';
 import { Repository } from 'typeorm';
-import { ProfileInput } from '../../application/users/inputs/profile.input';
 import { User } from '../user.model';
 import { ProfileUpdater } from './profile-updater.service';
+import { ProfileInput } from '../../../application/api/users/inputs/profile.input';
+import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
 
 describe('ProfileUpdater', () => {
   const _ID = 'test';
@@ -15,17 +16,17 @@ describe('ProfileUpdater', () => {
   const NEW_FIRSTNAME = 'test 2';
   const NEW_LASTNAME = 'TEST 2';
 
-  let usersRepository: Repository<User>;
+  let usersRepository: UsersRepository;
   let profileUpdater: ProfileUpdater;
 
   beforeEach(async () => {
-    usersRepository = new Repository<User>();
+    usersRepository = new UsersRepository(new Repository<User>());
     profileUpdater = new ProfileUpdater(usersRepository);
   });
 
   describe('update', () => {
     it('should return an user', async () => {
-      const mockedUser = new User(EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
+      const mockedUser = new User(_ID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
       jest
         .spyOn(usersRepository, 'findOne')
         .mockImplementation(async () => mockedUser);

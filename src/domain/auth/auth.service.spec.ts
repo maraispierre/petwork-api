@@ -3,6 +3,7 @@ import { Repository } from 'typeorm';
 import { AuthService } from './auth.service';
 import { AuthenticationError } from 'apollo-server-express';
 import { User } from '../users/user.model';
+import { UsersRepository } from '../../infrastructure/persistence/users/users.repository';
 
 describe('AuthService', () => {
   const TOKEN_TEST = 'test';
@@ -15,13 +16,13 @@ describe('AuthService', () => {
   const LASTNAME_USER = 'test';
 
   let authService: AuthService;
-  let usersRepository: Repository<User>;
+  let usersRepository: UsersRepository;
   let jwtOptions: JwtModuleOptions;
   let jwtService: JwtService;
 
   beforeEach(async () => {
     jwtService = new JwtService(jwtOptions);
-    usersRepository = new Repository<User>();
+    usersRepository = new UsersRepository(new Repository<User>());
     authService = new AuthService(usersRepository, jwtService);
   });
 
@@ -33,6 +34,7 @@ describe('AuthService', () => {
       };
 
       const user = new User(
+        undefined,
         EMAIL_USER,
         HASHED_PASSWORD_USER,
         FIRSTNAME_USER,
@@ -41,7 +43,7 @@ describe('AuthService', () => {
       const result = { access_token: TOKEN_TEST };
 
       jest
-        .spyOn(usersRepository, 'findOne')
+        .spyOn(usersRepository, 'findOneByEmail')
         .mockImplementation(async () => user);
       jest.spyOn(jwtService, 'sign').mockImplementation(() => TOKEN_TEST);
 
@@ -55,7 +57,7 @@ describe('AuthService', () => {
       };
 
       jest
-        .spyOn(usersRepository, 'findOne')
+        .spyOn(usersRepository, 'findOneByEmail')
         .mockImplementation(async () => undefined);
       jest.spyOn(jwtService, 'sign').mockImplementation(() => TOKEN_TEST);
 

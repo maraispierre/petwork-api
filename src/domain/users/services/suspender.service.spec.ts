@@ -2,6 +2,7 @@ import { ValidationError } from 'apollo-server-express';
 import { Repository } from 'typeorm';
 import { User } from '../user.model';
 import { Suspender } from './suspender.service';
+import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
 
 describe('Suspender', () => {
   const _ID = 'test';
@@ -11,17 +12,17 @@ describe('Suspender', () => {
   const LASTNAME = 'TEST';
   const IS_SUSPENDED = true;
 
-  let usersRepository: Repository<User>;
+  let usersRepository: UsersRepository;
   let suspender: Suspender;
 
   beforeEach(async () => {
-    usersRepository = new Repository<User>();
+    usersRepository = new UsersRepository(new Repository<User>());
     suspender = new Suspender(usersRepository);
   });
 
   describe('suspend', () => {
     it('should return an user', async () => {
-      const mockedUser = new User(EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
+      const mockedUser = new User(_ID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
       jest
         .spyOn(usersRepository, 'findOne')
         .mockImplementation(async () => mockedUser);

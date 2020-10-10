@@ -8,6 +8,7 @@ import { ProfileDisplayer } from '../../../domain/users/services/profile-display
 import { ProfileUpdater } from '../../../domain/users/services/profile-updater.service';
 import { Suspender } from '../../../domain/users/services/suspender.service';
 import { PasswordUpdater } from '../../../domain/users/services/password-updater.service';
+import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
 
 describe('UsersResolver', () => {
   const _ID = 'test';
@@ -17,7 +18,7 @@ describe('UsersResolver', () => {
   const LASTNAME = 'lastname';
 
   let usersResolver: UsersResolver;
-  let usersRepository: Repository<User>;
+  let usersRepository: UsersRepository;
   let subscriptionManager: Register;
   let profileDisplayer: ProfileDisplayer;
   let profileUpdater: ProfileUpdater;
@@ -41,7 +42,7 @@ describe('UsersResolver', () => {
 
   describe('subscribe', () => {
     it('should return user', async () => {
-      const user = new User(EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
+      const user = new User(_ID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
 
       jest
         .spyOn(subscriptionManager, 'subscribe')
@@ -59,7 +60,7 @@ describe('UsersResolver', () => {
 
   describe('showProfile', () => {
     it('should return user', async () => {
-      const user = new User(EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
+      const user = new User(_ID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
 
       jest.spyOn(profileDisplayer, 'show').mockImplementation(async () => user);
 
@@ -69,7 +70,7 @@ describe('UsersResolver', () => {
 
   describe('updateProfile', () => {
     it('should return user', async () => {
-      const user = new User(EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
+      const user = new User(_ID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
 
       jest.spyOn(profileUpdater, 'update').mockImplementation(async () => user);
 
@@ -81,7 +82,7 @@ describe('UsersResolver', () => {
 
   describe('suspend', () => {
     it('should return user', async () => {
-      const user = new User(EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
+      const user = new User(_ID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
 
       jest.spyOn(suspender, 'suspend').mockImplementation(async () => user);
 
@@ -91,7 +92,7 @@ describe('UsersResolver', () => {
 
   describe('updatePassword', () => {
     it('should return user', async () => {
-      const user = new User(EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
+      const user = new User(_ID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
 
       jest
         .spyOn(passwordUpdater, 'update')

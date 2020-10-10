@@ -7,7 +7,7 @@ import { UserMapper } from '../../mappers/user.mapper';
 export class UsersRepository {
   constructor(
     @InjectRepository(UserEntity)
-    private usersRepository: Repository<User>,
+    private usersRepository: Repository<UserEntity>,
   ) {}
 
   async findOne(_id: string): Promise<User | undefined> {

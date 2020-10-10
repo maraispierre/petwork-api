@@ -3,6 +3,7 @@ import { Repository } from 'typeorm';
 import { User } from '../user.model';
 import { PasswordUpdater } from './password-updater.service';
 import * as bcrypt from 'bcrypt';
+import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
 
 describe('PasswordUpdater', () => {
   const _ID = 'test';
@@ -13,17 +14,17 @@ describe('PasswordUpdater', () => {
 
   const NEW_PASSWORD = 'test2';
 
-  let usersRepository: Repository<User>;
+  let usersRepository: UsersRepository;
   let passwordUpdater: PasswordUpdater;
 
   beforeEach(async () => {
-    usersRepository = new Repository<User>();
+    usersRepository = new UsersRepository(new Repository<User>());
     passwordUpdater = new PasswordUpdater(usersRepository);
   });
 
   describe('update', () => {
     it('should return an user', async () => {
-      const mockedUser = new User(EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
+      const mockedUser = new User(_ID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
       jest
         .spyOn(usersRepository, 'findOne')
         .mockImplementation(async () => mockedUser);
