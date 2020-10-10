@@ -20,11 +20,16 @@ type Query {
 }
 
 type Mutation {
+  login(login: LoginInput!): JwtToken!
   subscribe(subscription: SubscriptionInput!): User!
   updateProfile(profile: ProfileInput!): User!
   suspend(_id: String!): User!
   updatePassword(password: String!, _id: String!): User!
-  login(login: LoginInput!): JwtToken!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
 }
 
 input SubscriptionInput {
@@ -38,9 +43,4 @@ input ProfileInput {
   _id: String!
   firstname: String!
   lastname: String!
-}
-
-input LoginInput {
-  email: String!
-  password: String!
 }

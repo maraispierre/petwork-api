@@ -1,19 +1,19 @@
 import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 import { ProfileInput } from './inputs/profile.input';
 import { SubscriptionInput } from './inputs/subscription.input';
-import { User } from './models/user.model';
-import { ProfileDisplayer } from './services/profile-displayer.service';
-import { ProfileUpdater } from './services/profile-updater.service';
-import { SubscriptionManager } from './services/subscription-manager.service';
-import { Suspender } from './services/suspender.service';
-import { PasswordUpdater } from './services/password-updater.service';
 import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
+import { User } from '../../domain/users/models/user.model';
+import { Register } from '../../domain/users/services/register.service';
+import { ProfileDisplayer } from '../../domain/users/services/profile-displayer.service';
+import { ProfileUpdater } from '../../domain/users/services/profile-updater.service';
+import { Suspender } from '../../domain/users/services/suspender.service';
+import { PasswordUpdater } from '../../domain/users/services/password-updater.service';
 
 @Resolver(of => User)
 export class UsersResolver {
   constructor(
-    private readonly subscriptionManager: SubscriptionManager,
+    private readonly subscriptionManager: Register,
     private readonly profileDisplayer: ProfileDisplayer,
     private readonly profileUpdater: ProfileUpdater,
     private readonly suspender: Suspender,

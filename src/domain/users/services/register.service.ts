@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ValidationError } from 'apollo-server-express';
 import { Repository } from 'typeorm';
-import { SubscriptionInput } from '../inputs/subscription.input';
 import { User } from '../models/user.model';
+import { SubscriptionInput } from '../../../application/users/inputs/subscription.input';
 
 @Injectable()
-export class SubscriptionManager {
+export class Register {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,

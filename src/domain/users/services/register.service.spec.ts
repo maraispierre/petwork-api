@@ -1,11 +1,11 @@
 import { ValidationError } from 'apollo-server-express';
 import { Repository } from 'typeorm';
-import { SubscriptionInput } from '../inputs/subscription.input';
 import { User } from '../models/user.model';
-import { SubscriptionManager } from './subscription-manager.service';
+import { Register } from './register.service';
 import * as bcrypt from 'bcrypt';
+import { SubscriptionInput } from '../../../application/users/inputs/subscription.input';
 
-describe('SubscriptionManager', () => {
+describe('Register', () => {
   const EMAIL = 'test@test.com';
   const PASSWORD = 'password';
   const FIRSTNAME = 'test';
@@ -13,11 +13,11 @@ describe('SubscriptionManager', () => {
   const IS_SUSPENDED = false;
 
   let usersRepository: Repository<User>;
-  let subscriptionManager: SubscriptionManager;
+  let subscriptionManager: Register;
 
   beforeEach(async () => {
     usersRepository = new Repository<User>();
-    subscriptionManager = new SubscriptionManager(usersRepository);
+    subscriptionManager = new Register(usersRepository);
   });
 
   describe('subscription', () => {

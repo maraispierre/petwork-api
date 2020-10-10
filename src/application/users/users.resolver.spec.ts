@@ -1,13 +1,13 @@
 import { Repository } from 'typeorm';
 import { ProfileInput } from './inputs/profile.input';
 import { SubscriptionInput } from './inputs/subscription.input';
-import { User } from './models/user.model';
-import { ProfileDisplayer } from './services/profile-displayer.service';
-import { ProfileUpdater } from './services/profile-updater.service';
-import { SubscriptionManager } from './services/subscription-manager.service';
+import { User } from '../../users/models/user.model';
+import { ProfileDisplayer } from '../../users/services/profile-displayer.service';
+import { ProfileUpdater } from '../../users/services/profile-updater.service';
+import { SubscriptionManager } from '../../users/services/subscription-manager.service';
 import { UsersResolver } from './users.resolver';
-import { Suspender } from './services/suspender.service';
-import { PasswordUpdater } from './services/password-updater.service';
+import { Suspender } from '../../users/services/suspender.service';
+import { PasswordUpdater } from '../../users/services/password-updater.service';
 
 describe('UsersResolver', () => {
   const _ID = 'test';

@@ -1,9 +1,9 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Column, Entity, ObjectIdColumn } from 'typeorm';
-import { ProfileInput } from '../inputs/profile.input';
 import * as bcrypt from 'bcrypt';
-import { globalConstants } from '../../constant';
-import { SubscriptionInput } from '../inputs/subscription.input';
+import { globalConstants } from '../../../constant';
+import { SubscriptionInput } from '../../../application/users/inputs/subscription.input';
+import { ProfileInput } from '../../../application/users/inputs/profile.input';
 
 @ObjectType()
 @Entity()

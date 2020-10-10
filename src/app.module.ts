@@ -1,16 +1,12 @@
 import { Module } from '@nestjs/common';
-import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
+import { ApplicationModule } from './application/application.module';
+import { DomainModule } from './domain/domain.module';
 
 @Module({
   imports: [
-    GraphQLModule.forRoot({
-      context: ({ req }) => ({ req }),
-      autoSchemaFile: 'schema.gql',
-    }),
     TypeOrmModule.forRoot({
       type: 'mongodb',
       url: process.env.MONGO_DB_URL,
@@ -21,7 +17,8 @@ import { UsersModule } from './users/users.module';
       useUnifiedTopology: true,
     }),
     AuthModule,
-    UsersModule,
+    ApplicationModule,
+    DomainModule,
   ],
   controllers: [],
   providers: [],

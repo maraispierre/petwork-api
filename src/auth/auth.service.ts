@@ -5,8 +5,8 @@ import { LoginInput } from './inputs/login.input';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../users/models/user.model';
 import { AuthenticationError } from 'apollo-server-express';
+import { User } from '../domain/users/models/user.model';
 
 @Injectable()
 export class AuthService {
