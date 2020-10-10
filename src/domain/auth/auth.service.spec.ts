@@ -2,7 +2,7 @@ import { JwtModuleOptions, JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
 import { AuthService } from './auth.service';
 import { AuthenticationError } from 'apollo-server-express';
-import { User } from '../../../domain/users/user.model';
+import { User } from '../users/user.model';
 
 describe('AuthService', () => {
   const TOKEN_TEST = 'test';

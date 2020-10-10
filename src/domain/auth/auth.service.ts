@@ -1,25 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { JwtToken } from './models/jwt-token.model';
-import { LoginInput } from './inputs/login.input';
-import { Repository } from 'typeorm';
+import { JwtToken } from '../../application/api/auth/models/jwt-token.model';
+import { LoginInput } from '../../application/api/auth/inputs/login.input';
 import * as bcrypt from 'bcrypt';
-import { InjectRepository } from '@nestjs/typeorm';
 import { AuthenticationError } from 'apollo-server-express';
-import { User } from '../../../domain/users/user.model';
+import { UsersRepository } from '../../infrastructure/persistence/users/users.repository';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>,
+    private usersRepository: UsersRepository,
     private jwtService: JwtService,
   ) {}
 
   async login(login: LoginInput): Promise<JwtToken> {
-    const user = await this.usersRepository.findOne({
-      where: { email: login.email },
-    });
+    const user = await this.usersRepository.findOneByEmail(login.email);
 
     if (user && (await bcrypt.compare(login.password, user.password))) {
       const payload = { email: login.email };

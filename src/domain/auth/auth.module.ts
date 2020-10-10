@@ -3,14 +3,11 @@ import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { AuthResolver } from './auth.resolver';
-import { globalConstants } from '../../../constant';
-import { DomainModule } from '../../../domain/domain.module';
-import { PersistenceModule } from '../../../infrastructure/persistence/persistence.module';
+import { globalConstants } from '../../constant';
+import { PersistenceModule } from '../../infrastructure/persistence/persistence.module';
 
 @Module({
   imports: [
-    DomainModule,
     PersistenceModule,
     PassportModule,
     JwtModule.register({
@@ -18,8 +15,7 @@ import { PersistenceModule } from '../../../infrastructure/persistence/persisten
       signOptions: { expiresIn: '3600s' },
     }),
   ],
-  providers: [AuthService, JwtStrategy, AuthResolver],
+  providers: [AuthService, JwtStrategy],
   exports: [AuthService],
-  controllers: [],
 })
 export class AuthModule {}

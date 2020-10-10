@@ -11,6 +11,10 @@ type User {
   isSuspended: Boolean!
 }
 
+type JwtToken {
+  access_token: String!
+}
+
 type Query {
   showProfile(_id: String!): User!
 }
@@ -20,6 +24,7 @@ type Mutation {
   updateProfile(profile: ProfileInput!): User!
   suspend(_id: String!): User!
   updatePassword(password: String!, _id: String!): User!
+  login(login: LoginInput!): JwtToken!
 }
 
 input SubscriptionInput {
@@ -33,4 +38,9 @@ input ProfileInput {
   _id: String!
   firstname: String!
   lastname: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
 }

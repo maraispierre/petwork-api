@@ -1,4 +1,4 @@
-import { UserEntity } from '../persistence/users/user.entity';
+import { User as UserEntity } from '../persistence/users/user.entity';
 import { User } from '../../domain/users/user.model';
 import { User as UserDTO } from '../../application/api/users/user.schema';
 
@@ -23,7 +23,7 @@ export class UserMapper {
     );
   }
 
-  public static toDTO(user: User): UserEntity {
+  public static toDTO(user: User): UserDTO {
     return new UserDTO(
       user._id,
       user.email,

@@ -2,7 +2,7 @@ import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 import { ProfileInput } from './inputs/profile.input';
 import { SubscriptionInput } from './inputs/subscription.input';
 import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../../../domain/auth/jwt-auth.guard';
 import { Register } from '../../../domain/users/services/register.service';
 import { ProfileDisplayer } from '../../../domain/users/services/profile-displayer.service';
 import { ProfileUpdater } from '../../../domain/users/services/profile-updater.service';
