@@ -4,12 +4,14 @@ import { JwtStrategy } from './jwt.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthResolver } from './auth.resolver';
-import { globalConstants } from '../constant';
-import { DomainModule } from '../domain/domain.module';
+import { globalConstants } from '../../../constant';
+import { DomainModule } from '../../../domain/domain.module';
+import { PersistenceModule } from '../../../infrastructure/persistence/persistence.module';
 
 @Module({
   imports: [
     DomainModule,
+    PersistenceModule,
     PassportModule,
     JwtModule.register({
       secret: globalConstants.jwtSecretKey,

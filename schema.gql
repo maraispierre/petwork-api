@@ -3,7 +3,7 @@
 # ------------------------------------------------------
 
 type User {
-  _id: String!
+  _id: ID!
   email: String!
   password: String!
   firstname: String!
@@ -11,25 +11,15 @@ type User {
   isSuspended: Boolean!
 }
 
-type JwtToken {
-  access_token: String!
-}
-
 type Query {
   showProfile(_id: String!): User!
 }
 
 type Mutation {
-  login(login: LoginInput!): JwtToken!
   subscribe(subscription: SubscriptionInput!): User!
   updateProfile(profile: ProfileInput!): User!
   suspend(_id: String!): User!
   updatePassword(password: String!, _id: String!): User!
-}
-
-input LoginInput {
-  email: String!
-  password: String!
 }
 
 input SubscriptionInput {

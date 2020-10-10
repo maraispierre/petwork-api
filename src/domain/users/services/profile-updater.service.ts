@@ -1,16 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { ValidationError } from 'apollo-server-express';
-import { Repository } from 'typeorm';
-import { User } from '../models/user.model';
-import { ProfileInput } from '../../../application/users/inputs/profile.input';
+import { User } from '../user.model';
+import { ProfileInput } from '../../../application/api/users/inputs/profile.input';
+import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
 
 @Injectable()
 export class ProfileUpdater {
-  constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>,
-  ) {}
+  constructor(private usersRepository: UsersRepository) {}
 
   async update(profile: ProfileInput): Promise<User> {
     const user = await this.usersRepository.findOne(profile._id);

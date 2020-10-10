@@ -1,6 +1,6 @@
 import { ValidationError } from 'apollo-server-express';
 import { Repository } from 'typeorm';
-import { User } from '../models/user.model';
+import { User } from '../user.model';
 import { Suspender } from './suspender.service';
 
 describe('Suspender', () => {

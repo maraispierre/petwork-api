@@ -1,15 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { ValidationError } from 'apollo-server-express';
-import { Repository } from 'typeorm';
-import { User } from '../models/user.model';
+import { User } from '../user.model';
+import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
 
 @Injectable()
 export class PasswordUpdater {
-  constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>,
-  ) {}
+  constructor(private usersRepository: UsersRepository) {}
 
   async update(_id: string, password: string): Promise<User> {
     const user = await this.usersRepository.findOne(_id);

@@ -1,7 +1,7 @@
 import { ValidationError } from 'apollo-server-express';
 import { Repository } from 'typeorm';
 import { ProfileInput } from '../../application/users/inputs/profile.input';
-import { User } from '../models/user.model';
+import { User } from '../user.model';
 import { ProfileUpdater } from './profile-updater.service';
 
 describe('ProfileUpdater', () => {

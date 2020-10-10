@@ -1,9 +1,9 @@
 import { ValidationError } from 'apollo-server-express';
 import { Repository } from 'typeorm';
-import { User } from '../models/user.model';
+import { User } from '../user.model';
 import { Register } from './register.service';
 import * as bcrypt from 'bcrypt';
-import { SubscriptionInput } from '../../../application/users/inputs/subscription.input';
+import { SubscriptionInput } from '../../../application/api/users/inputs/subscription.input';
 
 describe('Register', () => {
   const EMAIL = 'test@test.com';

@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthenticationError } from 'apollo-server-express';
-import { User } from '../domain/users/models/user.model';
+import { User } from '../../../domain/users/user.model';
 
 @Injectable()
 export class AuthService {

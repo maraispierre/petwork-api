@@ -1,13 +1,13 @@
 import { Repository } from 'typeorm';
 import { ProfileInput } from './inputs/profile.input';
 import { SubscriptionInput } from './inputs/subscription.input';
-import { User } from '../../users/models/user.model';
-import { ProfileDisplayer } from '../../users/services/profile-displayer.service';
-import { ProfileUpdater } from '../../users/services/profile-updater.service';
-import { SubscriptionManager } from '../../users/services/subscription-manager.service';
 import { UsersResolver } from './users.resolver';
-import { Suspender } from '../../users/services/suspender.service';
-import { PasswordUpdater } from '../../users/services/password-updater.service';
+import { User } from '../../../domain/users/user.model';
+import { Register } from '../../../domain/users/services/register.service';
+import { ProfileDisplayer } from '../../../domain/users/services/profile-displayer.service';
+import { ProfileUpdater } from '../../../domain/users/services/profile-updater.service';
+import { Suspender } from '../../../domain/users/services/suspender.service';
+import { PasswordUpdater } from '../../../domain/users/services/password-updater.service';
 
 describe('UsersResolver', () => {
   const _ID = 'test';
@@ -18,14 +18,14 @@ describe('UsersResolver', () => {
 
   let usersResolver: UsersResolver;
   let usersRepository: Repository<User>;
-  let subscriptionManager: SubscriptionManager;
+  let subscriptionManager: Register;
   let profileDisplayer: ProfileDisplayer;
   let profileUpdater: ProfileUpdater;
   let suspender: Suspender;
   let passwordUpdater: PasswordUpdater;
 
   beforeEach(async () => {
-    subscriptionManager = new SubscriptionManager(usersRepository);
+    subscriptionManager = new Register(usersRepository);
     profileDisplayer = new ProfileDisplayer(usersRepository);
     profileUpdater = new ProfileUpdater(usersRepository);
     suspender = new Suspender(usersRepository);

@@ -1,6 +1,6 @@
 import { ValidationError } from 'apollo-server-express';
 import { Repository } from 'typeorm';
-import { User } from '../models/user.model';
+import { User } from '../user.model';
 import { PasswordUpdater } from './password-updater.service';
 import * as bcrypt from 'bcrypt';
 

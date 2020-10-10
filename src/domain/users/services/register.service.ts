@@ -1,16 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { ValidationError } from 'apollo-server-express';
-import { Repository } from 'typeorm';
-import { User } from '../models/user.model';
-import { SubscriptionInput } from '../../../application/users/inputs/subscription.input';
+import { User } from '../user.model';
+import { SubscriptionInput } from '../../../application/api/users/inputs/subscription.input';
+import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
 
 @Injectable()
 export class Register {
-  constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>,
-  ) {}
+  constructor(private usersRepository: UsersRepository) {}
 
   async subscribe(subscription: SubscriptionInput): Promise<User> {
     if (await this.isEmailAlreadyUsed(subscription.email)) {
@@ -23,9 +19,7 @@ export class Register {
   }
 
   private async isEmailAlreadyUsed(email: string) {
-    const users = await this.usersRepository.find({
-      where: { email: email },
-    });
+    const users = await this.usersRepository.findByEmail(email);
 
     return users.length !== 0;
   }

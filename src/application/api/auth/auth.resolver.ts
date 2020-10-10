@@ -1,7 +1,6 @@
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
 import { JwtToken } from './models/jwt-token.model';
-import { AuthenticationError } from 'apollo-server-express';
 import { LoginInput } from './inputs/login.input';
 
 @Resolver(of => JwtToken)
