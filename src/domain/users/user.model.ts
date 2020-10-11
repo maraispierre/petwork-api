@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcrypt';
 import { globalConstants } from '../../constant';
-import { SubscriptionInput } from '../../application/api/users/inputs/subscription.input';
+import { RegisterInput } from '../../application/api/users/inputs/register.input';
 import { ProfileInput } from '../../application/api/users/inputs/profile.input';
 
 export class User {
@@ -16,6 +16,7 @@ export class User {
 
   isSuspended: boolean;
 
+  // noinspection DuplicatedCode
   public constructor(
     _id: string | undefined,
     email: string,
@@ -31,7 +32,7 @@ export class User {
     this.isSuspended = false;
   }
 
-  public static async subscribe(subscription: SubscriptionInput) {
+  public static async subscribe(subscription: RegisterInput) {
     const hashedPassword = await bcrypt.hash(
       subscription.password,
       globalConstants.bcryptSaltRounds,

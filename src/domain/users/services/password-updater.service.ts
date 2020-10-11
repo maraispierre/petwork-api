@@ -5,9 +5,9 @@ import { UsersRepository } from '../../../infrastructure/persistence/users/users
 
 @Injectable()
 export class PasswordUpdater {
-  constructor(private usersRepository: UsersRepository) {}
+  public constructor(private usersRepository: UsersRepository) {}
 
-  async update(_id: string, password: string): Promise<User> {
+  public async update(_id: string, password: string): Promise<User> {
     const user = await this.usersRepository.findOne(_id);
 
     if (user instanceof User) {

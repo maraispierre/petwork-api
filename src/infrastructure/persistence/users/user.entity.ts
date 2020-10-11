@@ -20,6 +20,7 @@ export class User {
   @Column()
   isSuspended: boolean;
 
+  // noinspection DuplicatedCode
   public constructor(
     _id: string | undefined,
     email: string,

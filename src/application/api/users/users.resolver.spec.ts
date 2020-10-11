@@ -1,6 +1,5 @@
-import { Repository } from 'typeorm';
 import { ProfileInput } from './inputs/profile.input';
-import { SubscriptionInput } from './inputs/subscription.input';
+import { RegisterInput } from './inputs/register.input';
 import { UsersResolver } from './users.resolver';
 import { User } from '../../../domain/users/user.model';
 import { Register } from '../../../domain/users/services/register.service';
@@ -9,6 +8,7 @@ import { ProfileUpdater } from '../../../domain/users/services/profile-updater.s
 import { Suspender } from '../../../domain/users/services/suspender.service';
 import { PasswordUpdater } from '../../../domain/users/services/password-updater.service';
 import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
+import { EmailsSender } from '../../../infrastructure/emails/emails-sender.service';
 
 describe('UsersResolver', () => {
   const _ID = 'test';
@@ -19,20 +19,21 @@ describe('UsersResolver', () => {
 
   let usersResolver: UsersResolver;
   let usersRepository: UsersRepository;
-  let subscriptionManager: Register;
+  let emailsSender: EmailsSender;
+  let register: Register;
   let profileDisplayer: ProfileDisplayer;
   let profileUpdater: ProfileUpdater;
   let suspender: Suspender;
   let passwordUpdater: PasswordUpdater;
 
   beforeEach(async () => {
-    subscriptionManager = new Register(usersRepository);
+    register = new Register(usersRepository, emailsSender);
     profileDisplayer = new ProfileDisplayer(usersRepository);
     profileUpdater = new ProfileUpdater(usersRepository);
     suspender = new Suspender(usersRepository);
     passwordUpdater = new PasswordUpdater(usersRepository);
     usersResolver = new UsersResolver(
-      subscriptionManager,
+      register,
       profileDisplayer,
       profileUpdater,
       suspender,
@@ -40,21 +41,19 @@ describe('UsersResolver', () => {
     );
   });
 
-  describe('subscribe', () => {
+  describe('register', () => {
     it('should return user', async () => {
       const user = new User(_ID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
 
-      jest
-        .spyOn(subscriptionManager, 'subscribe')
-        .mockImplementation(async () => user);
+      jest.spyOn(register, 'register').mockImplementation(async () => user);
 
-      const subscriptionInput = new SubscriptionInput(
+      const subscriptionInput = new RegisterInput(
         EMAIL,
         PASSWORD,
         FIRSTNAME,
         LASTNAME,
       );
-      expect(await usersResolver.subscribe(subscriptionInput)).toEqual(user);
+      expect(await usersResolver.register(subscriptionInput)).toEqual(user);
     });
   });
 

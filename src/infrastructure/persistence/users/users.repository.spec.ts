@@ -1,8 +1,7 @@
-import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
-import { User as UserEntity} from './user.entity';
+import { UsersRepository } from './users.repository';
+import { User as UserEntity } from './user.entity';
 import { Repository } from 'typeorm';
 import { User } from '../../../domain/users/user.model';
-import { ValidationError } from 'apollo-server-express';
 
 describe('UsersRepository', () => {
   const _ID = 'test';
@@ -10,9 +9,8 @@ describe('UsersRepository', () => {
   const PASSWORD = 'test';
   const FIRSTNAME = 'test';
   const LASTNAME = 'TEST';
-  const IS_SUSPENDED = true;
 
-  let repository: Repository<UserEntity>
+  let repository: Repository<UserEntity>;
   let usersRepository: UsersRepository;
 
   beforeEach(async () => {
@@ -22,7 +20,13 @@ describe('UsersRepository', () => {
 
   describe('findOne', () => {
     it('should return an user', async () => {
-      const mockedUser = new UserEntity(_ID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
+      const mockedUser = new UserEntity(
+        _ID,
+        EMAIL,
+        PASSWORD,
+        FIRSTNAME,
+        LASTNAME,
+      );
       jest
         .spyOn(repository, 'findOne')
         .mockImplementation(async () => mockedUser);
@@ -33,7 +37,6 @@ describe('UsersRepository', () => {
     });
 
     it('should return undefined', async () => {
-      const mockedUser = new UserEntity(_ID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
       jest
         .spyOn(repository, 'findOne')
         .mockImplementation(async () => undefined);
@@ -46,7 +49,13 @@ describe('UsersRepository', () => {
 
   describe('findOneByEmail', () => {
     it('should return an user', async () => {
-      const mockedUser = new UserEntity(_ID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
+      const mockedUser = new UserEntity(
+        _ID,
+        EMAIL,
+        PASSWORD,
+        FIRSTNAME,
+        LASTNAME,
+      );
       jest
         .spyOn(repository, 'find')
         .mockImplementation(async () => [mockedUser]);
@@ -57,9 +66,7 @@ describe('UsersRepository', () => {
     });
 
     it('should return undefined', async () => {
-      jest
-        .spyOn(repository, 'find')
-        .mockImplementation(async () => []);
+      jest.spyOn(repository, 'find').mockImplementation(async () => []);
 
       const user = await usersRepository.findOneByEmail(_ID);
 
@@ -67,20 +74,30 @@ describe('UsersRepository', () => {
     });
 
     it('should return error', async () => {
-      const mockedUser = new UserEntity(_ID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
+      const mockedUser = new UserEntity(
+        _ID,
+        EMAIL,
+        PASSWORD,
+        FIRSTNAME,
+        LASTNAME,
+      );
       jest
         .spyOn(repository, 'find')
         .mockImplementation(async () => [mockedUser, mockedUser]);
 
-      expect(
-        usersRepository.findOneByEmail(_ID),
-      ).rejects.toThrowError(ValidationError);
+      expect(usersRepository.findOneByEmail(_ID)).rejects.toThrowError(Error);
     });
   });
 
   describe('findByEmail', () => {
     it('should return an array of user', async () => {
-      const mockedUser = new UserEntity(_ID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
+      const mockedUser = new UserEntity(
+        _ID,
+        EMAIL,
+        PASSWORD,
+        FIRSTNAME,
+        LASTNAME,
+      );
       jest
         .spyOn(repository, 'find')
         .mockImplementation(async () => [mockedUser]);
@@ -93,12 +110,16 @@ describe('UsersRepository', () => {
 
   describe('save', () => {
     it('should return an user', async () => {
-      const mockedUser = new UserEntity(_ID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
-      jest
-        .spyOn(repository, 'save')
-        .mockImplementation(async () => mockedUser);
+      const mockedUser = new UserEntity(
+        _ID,
+        EMAIL,
+        PASSWORD,
+        FIRSTNAME,
+        LASTNAME,
+      );
+      jest.spyOn(repository, 'save').mockImplementation(async () => mockedUser);
 
-      const user = new User(_ID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME)
+      const user = new User(_ID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
 
       const expectedResult = await usersRepository.save(user);
 

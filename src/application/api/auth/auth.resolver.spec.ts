@@ -1,9 +1,7 @@
 import { JwtService } from '@nestjs/jwt';
-import { Repository } from 'typeorm';
 import { AuthResolver } from './auth.resolver';
 import { AuthService } from '../../../domain/auth/auth.service';
 import { LoginInput } from './inputs/login.input';
-import { User } from '../../../domain/users/user.model';
 import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
 
 describe('AuthResolver', () => {

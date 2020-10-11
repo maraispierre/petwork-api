@@ -1,19 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { ValidationError } from 'apollo-server-express';
 import { User } from '../user.model';
-import { SubscriptionInput } from '../../../application/api/users/inputs/subscription.input';
+import { RegisterInput } from '../../../application/api/users/inputs/register.input';
 import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
+import { EmailsSender } from '../../../infrastructure/emails/emails-sender.service';
 
 @Injectable()
 export class Register {
-  constructor(private usersRepository: UsersRepository) {}
+  constructor(
+    private usersRepository: UsersRepository,
+    private emailsSender: EmailsSender,
+  ) {}
 
-  async subscribe(subscription: SubscriptionInput): Promise<User> {
-    if (await this.isEmailAlreadyUsed(subscription.email)) {
+  public async register(register: RegisterInput): Promise<User> {
+    if (await this.isEmailAlreadyUsed(register.email)) {
       throw new ValidationError('Email already exists');
     }
 
-    const user = await User.subscribe(subscription);
+    const user = await User.subscribe(register);
+
+    await this.emailsSender.sendEmail(
+      EmailsSender.REGISTER_TEMPLATE_ID,
+      user.email,
+    );
 
     return this.usersRepository.save(user);
   }

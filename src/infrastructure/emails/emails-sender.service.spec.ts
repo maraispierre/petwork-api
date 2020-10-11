@@ -1,13 +1,9 @@
-import { Test, TestingModule } from '@nestjs/testing';
 import { SendinBlueSender } from './sendin-blue-sender.service';
 import { EmailsSender } from './emails-sender.service';
-import { SubscriptionInput } from '../users/inputs/subscription.input';
-import { User } from '../users/models/user.model';
-import { ValidationError } from 'apollo-server-express';
-import { EmailSenderInterface } from './interfaces/email-sender.interface';
+import { EmailSender } from './email.sender.interface';
 
 describe('EmailsSender', () => {
-  let emailsSenderInterface: EmailSenderInterface;
+  let emailsSenderInterface: EmailSender;
   let emailsSender: EmailsSender;
 
   beforeEach(async () => {
@@ -19,7 +15,7 @@ describe('EmailsSender', () => {
     it('should send a email', async () => {
       jest.spyOn(emailsSenderInterface, 'sendEmail').mockImplementation();
 
-      emailsSender.sendEmail(1, 'test');
+      await emailsSender.sendEmail(EmailsSender.REGISTER_TEMPLATE_ID, 'test');
     });
   });
 });

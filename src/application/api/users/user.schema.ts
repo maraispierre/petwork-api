@@ -2,7 +2,7 @@ import { Field, ID, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 export class User {
-  @Field(/* istanbul ignore next */() => ID)
+  @Field(/* istanbul ignore next */ () => ID)
   _id: string | undefined;
 
   @Field()
@@ -20,6 +20,7 @@ export class User {
   @Field()
   isSuspended: boolean;
 
+  // noinspection DuplicatedCode
   public constructor(
     _id: string | undefined,
     email: string,

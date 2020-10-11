@@ -5,10 +5,10 @@ import { LoginInput } from './inputs/login.input';
 
 @Resolver(of => JwtToken)
 export class AuthResolver {
-  constructor(private readonly authService: AuthService) {}
+  public constructor(private readonly authService: AuthService) {}
 
   @Mutation(/* istanbul ignore next */ returns => JwtToken)
-  async login(@Args('login') login: LoginInput) {
+  public async login(@Args('login') login: LoginInput) {
     return await this.authService.login(login);
   }
 }

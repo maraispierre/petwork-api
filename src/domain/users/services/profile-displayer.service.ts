@@ -5,9 +5,9 @@ import { UsersRepository } from '../../../infrastructure/persistence/users/users
 
 @Injectable()
 export class ProfileDisplayer {
-  constructor(private usersRepository: UsersRepository) {}
+  public constructor(private usersRepository: UsersRepository) {}
 
-  async show(_id: string): Promise<User> {
+  public async show(_id: string): Promise<User> {
     const user = await this.usersRepository.findOne(_id);
 
     if (user instanceof User) {

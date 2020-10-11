@@ -3,8 +3,10 @@ import { Repository } from 'typeorm';
 import { User } from '../user.model';
 import { Register } from './register.service';
 import * as bcrypt from 'bcrypt';
-import { SubscriptionInput } from '../../../application/api/users/inputs/subscription.input';
+import { RegisterInput } from '../../../application/api/users/inputs/register.input';
 import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
+import { EmailsSender } from '../../../infrastructure/emails/emails-sender.service';
+import { SendinBlueSender } from '../../../infrastructure/emails/sendin-blue-sender.service';
 
 describe('Register', () => {
   const _ID = 'ID';
@@ -15,16 +17,18 @@ describe('Register', () => {
   const IS_SUSPENDED = false;
 
   let usersRepository: UsersRepository;
-  let subscriptionManager: Register;
+  let emailsSender: EmailsSender;
+  let register: Register;
 
   beforeEach(async () => {
     usersRepository = new UsersRepository(new Repository<User>());
-    subscriptionManager = new Register(usersRepository);
+    emailsSender = new EmailsSender(new SendinBlueSender());
+    register = new Register(usersRepository, emailsSender);
   });
 
-  describe('subscription', () => {
-    it('should subscribe an user', async () => {
-      const subscription = new SubscriptionInput(
+  describe('register', () => {
+    it('should register an user', async () => {
+      const subscription = new RegisterInput(
         EMAIL,
         PASSWORD,
         FIRSTNAME,
@@ -35,9 +39,14 @@ describe('Register', () => {
       jest
         .spyOn(usersRepository, 'save')
         .mockImplementation(async () => mockedUser);
-      jest.spyOn(usersRepository, 'findByEmail').mockImplementation(async () => []);
+      jest
+        .spyOn(usersRepository, 'findByEmail')
+        .mockImplementation(async () => []);
+      jest
+        .spyOn(emailsSender, 'sendEmail')
+        .mockImplementation(async () => undefined);
 
-      const subscriber = await subscriptionManager.subscribe(subscription);
+      const subscriber = await register.register(subscription);
 
       expect(subscriber.email).toEqual(EMAIL);
       expect(await bcrypt.compare(PASSWORD, subscriber.password)).toEqual(true);
@@ -54,17 +63,20 @@ describe('Register', () => {
       jest
         .spyOn(usersRepository, 'findByEmail')
         .mockImplementation(async () => [mockedUser]);
+      jest
+        .spyOn(emailsSender, 'sendEmail')
+        .mockImplementation(async () => undefined);
 
-      const subscriptionInput = new SubscriptionInput(
+      const subscriptionInput = new RegisterInput(
         EMAIL,
         PASSWORD,
         FIRSTNAME,
         LASTNAME,
       );
 
-      expect(
-        subscriptionManager.subscribe(subscriptionInput),
-      ).rejects.toThrowError(ValidationError);
+      expect(register.register(subscriptionInput)).rejects.toThrowError(
+        ValidationError,
+      );
     });
   });
 });

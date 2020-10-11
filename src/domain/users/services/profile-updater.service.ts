@@ -6,9 +6,9 @@ import { UsersRepository } from '../../../infrastructure/persistence/users/users
 
 @Injectable()
 export class ProfileUpdater {
-  constructor(private usersRepository: UsersRepository) {}
+  public constructor(private usersRepository: UsersRepository) {}
 
-  async update(profile: ProfileInput): Promise<User> {
+  public async update(profile: ProfileInput): Promise<User> {
     const user = await this.usersRepository.findOne(profile._id);
 
     if (user instanceof User) {

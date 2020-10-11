@@ -5,12 +5,12 @@ import { User } from '../../../domain/users/user.model';
 import { UserMapper } from '../../mappers/user.mapper';
 
 export class UsersRepository {
-  constructor(
+  public constructor(
     @InjectRepository(UserEntity)
     private usersRepository: Repository<UserEntity>,
   ) {}
 
-  async findOne(_id: string): Promise<User | undefined> {
+  public async findOne(_id: string): Promise<User | undefined> {
     const userEntity = await this.usersRepository.findOne(_id);
 
     if (userEntity instanceof UserEntity) {
@@ -20,7 +20,7 @@ export class UsersRepository {
     return undefined;
   }
 
-  async findOneByEmail(email: string): Promise<User | undefined> {
+  public async findOneByEmail(email: string): Promise<User | undefined> {
     const userEntities = await this.usersRepository.find({
       where: { email: email },
     });
@@ -35,7 +35,7 @@ export class UsersRepository {
     return undefined;
   }
 
-  async findByEmail(email: string): Promise<User[]> {
+  public async findByEmail(email: string): Promise<User[]> {
     const userEntities = await this.usersRepository.find({
       where: { email: email },
     });
@@ -48,7 +48,7 @@ export class UsersRepository {
     return users;
   }
 
-  async save(user: User): Promise<User> {
+  public async save(user: User): Promise<User> {
     const userEntity = await this.usersRepository.save(
       UserMapper.toPersistence(user),
     );
