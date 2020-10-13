@@ -1,7 +1,8 @@
 import { SendinBlueSender } from './sendin-blue-sender.service';
 import { EmailsSender } from './emails-sender.service';
+import { SendinBlueApiError } from './sendin.blue.api.error';
 
-describe('EmailsSender', () => {
+describe('SendinBlueSender', () => {
   let sendinBlueSender: SendinBlueSender;
 
   beforeEach(async () => {
@@ -14,6 +15,12 @@ describe('EmailsSender', () => {
         EmailsSender.REGISTER_TEMPLATE_ID,
         'piemarais@gmail.com',
       );
+    });
+
+    it('should throw SendinBlueApiError', async () => {
+      await expect(
+        sendinBlueSender.sendEmail(EmailsSender.REGISTER_TEMPLATE_ID, 'test'),
+      ).rejects.toThrowError(SendinBlueApiError);
     });
   });
 });

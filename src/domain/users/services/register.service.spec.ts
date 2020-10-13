@@ -1,4 +1,3 @@
-import { ValidationError } from 'apollo-server-express';
 import { Repository } from 'typeorm';
 import { User } from '../user.model';
 import { Register } from './register.service';
@@ -7,6 +6,8 @@ import { RegisterInput } from '../../../application/api/users/inputs/register.in
 import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
 import { EmailsSender } from '../../../infrastructure/emails/emails-sender.service';
 import { SendinBlueSender } from '../../../infrastructure/emails/sendin-blue-sender.service';
+import { RegisterSendEmailError } from './errors/register.send.email.error';
+import { RegisterDuplicatedEmailError } from './errors/register.duplicated.email.error';
 
 describe('Register', () => {
   const _ID = 'ID';
@@ -55,7 +56,7 @@ describe('Register', () => {
       expect(subscriber.isSuspended).toEqual(IS_SUSPENDED);
     });
 
-    it('should throw validation error', async () => {
+    it('should throw RegisterDuplicatedEmailError', async () => {
       const mockedUser = new User(_ID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
       jest
         .spyOn(usersRepository, 'save')
@@ -74,8 +75,32 @@ describe('Register', () => {
         LASTNAME,
       );
 
-      expect(register.register(subscriptionInput)).rejects.toThrowError(
-        ValidationError,
+      await expect(register.register(subscriptionInput)).rejects.toThrowError(
+        RegisterDuplicatedEmailError,
+      );
+    });
+
+    it('should throw RegisterEmailError', async () => {
+      const mockedUser = new User(_ID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
+      jest
+        .spyOn(usersRepository, 'save')
+        .mockImplementation(async () => mockedUser);
+      jest
+        .spyOn(usersRepository, 'findByEmail')
+        .mockImplementation(async () => []);
+      jest.spyOn(emailsSender, 'sendEmail').mockImplementation(async () => {
+        throw new RegisterSendEmailError();
+      });
+
+      const subscriptionInput = new RegisterInput(
+        EMAIL,
+        PASSWORD,
+        FIRSTNAME,
+        LASTNAME,
+      );
+
+      await expect(register.register(subscriptionInput)).rejects.toThrowError(
+        RegisterSendEmailError,
       );
     });
   });
