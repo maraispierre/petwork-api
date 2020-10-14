@@ -3,6 +3,8 @@ import { Repository } from 'typeorm';
 import { User as UserEntity } from './user.entity';
 import { User } from '../../../domain/users/user.model';
 import { UserMapper } from '../../mappers/user.mapper';
+import { DuplicatedUserError } from './duplicated.user.error';
+import { Logger } from '@nestjs/common';
 
 export class UsersRepository {
   public constructor(
@@ -29,7 +31,11 @@ export class UsersRepository {
       if (userEntities.length === 1) {
         return UserMapper.toDomain(userEntities[0]);
       }
-      throw new Error('Too many user found for this email');
+
+      Logger.error('UsersRepository : Too many user found for this email');
+      throw new DuplicatedUserError(
+        'UsersRepository : Too many user found for this email',
+      );
     }
 
     return undefined;

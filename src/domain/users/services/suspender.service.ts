@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { ValidationError } from 'apollo-server-express';
+import { Injectable, Logger } from '@nestjs/common';
 import { User } from '../user.model';
 import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
+import { SuspenderUnknownUserError } from './errors/suspender.unknown.user.error';
 
 @Injectable()
 export class Suspender {
@@ -15,6 +15,7 @@ export class Suspender {
       return this.usersRepository.save(user);
     }
 
-    throw new ValidationError('Missing user with id :' + _id);
+    Logger.error('Suspender : Impossible to suspend this user, user not found');
+    throw new SuspenderUnknownUserError('Missing user with id :' + _id);
   }
 }

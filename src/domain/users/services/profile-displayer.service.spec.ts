@@ -1,8 +1,8 @@
-import { ValidationError } from 'apollo-server-express';
 import { Repository } from 'typeorm';
 import { User } from '../user.model';
 import { ProfileDisplayer } from './profile-displayer.service';
 import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
+import { ProfileDisplayerUnknownUserError } from './errors/profile.displayer.unknown.user.error';
 
 describe('ProfileDisplayer', () => {
   const _ID = 'test';
@@ -33,12 +33,14 @@ describe('ProfileDisplayer', () => {
       expect(subscriber.lastname).toEqual(LASTNAME);
     });
 
-    it('should throw validation error', async () => {
+    it('should throw ProfileDisplayerUnknownUserError', async () => {
       jest
         .spyOn(usersRepository, 'findOne')
         .mockImplementation(async () => undefined);
 
-      expect(profileDisplayer.show(_ID)).rejects.toThrowError(ValidationError);
+      await expect(profileDisplayer.show(_ID)).rejects.toThrowError(
+        ProfileDisplayerUnknownUserError,
+      );
     });
   });
 });

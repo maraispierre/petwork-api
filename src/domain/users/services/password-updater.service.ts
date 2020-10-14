@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { ValidationError } from 'apollo-server-express';
+import { Injectable, Logger } from '@nestjs/common';
 import { User } from '../user.model';
 import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
+import { PasswordUpdaterUnknownUserError } from './errors/password.updater.unknown.user.error';
 
 @Injectable()
 export class PasswordUpdater {
@@ -16,6 +16,9 @@ export class PasswordUpdater {
       return this.usersRepository.save(user);
     }
 
-    throw new ValidationError('Missing user with id :' + _id);
+    Logger.error(
+      'PasswordUpdater : Impossible to update password, user not found',
+    );
+    throw new PasswordUpdaterUnknownUserError('Missing user with id :' + _id);
   }
 }

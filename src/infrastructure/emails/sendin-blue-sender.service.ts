@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import * as SibApiV3Sdk from 'sib-api-v3-sdk';
 import { EmailSender } from './email.sender.interface';
+import { SendinBlueApiError } from './sendin.blue.api.error';
 
 @Injectable()
 export class SendinBlueSender implements EmailSender {
@@ -19,6 +20,16 @@ export class SendinBlueSender implements EmailSender {
 
     sendEmail.emailTo = [receiver];
 
-    await apiInstance.sendTemplate(templateId, sendEmail);
+    try {
+      await apiInstance.sendTemplate(templateId, sendEmail);
+    } catch (error) {
+      Logger.error(
+        'SendinBlueSender : Impossible to send email, SendinBlue API throws error : ' +
+          error.message,
+      );
+      throw new SendinBlueApiError(
+        'SendinBlueSender : Error when application call SendinBlue API: email not send',
+      );
+    }
   }
 }

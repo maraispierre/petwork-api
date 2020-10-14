@@ -2,6 +2,7 @@ import { UsersRepository } from './users.repository';
 import { User as UserEntity } from './user.entity';
 import { Repository } from 'typeorm';
 import { User } from '../../../domain/users/user.model';
+import { DuplicatedUserError } from './duplicated.user.error';
 
 describe('UsersRepository', () => {
   const _ID = 'test';
@@ -85,7 +86,9 @@ describe('UsersRepository', () => {
         .spyOn(repository, 'find')
         .mockImplementation(async () => [mockedUser, mockedUser]);
 
-      expect(usersRepository.findOneByEmail(_ID)).rejects.toThrowError(Error);
+      await expect(usersRepository.findOneByEmail(_ID)).rejects.toThrowError(
+        DuplicatedUserError,
+      );
     });
   });
 

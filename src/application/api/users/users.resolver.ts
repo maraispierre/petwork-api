@@ -1,7 +1,7 @@
 import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 import { ProfileInput } from './inputs/profile.input';
 import { RegisterInput } from './inputs/register.input';
-import { UseGuards } from '@nestjs/common';
+import { Logger, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../../../domain/auth/jwt-auth.guard';
 import { Register } from '../../../domain/users/services/register.service';
 import { ProfileDisplayer } from '../../../domain/users/services/profile-displayer.service';
@@ -25,12 +25,14 @@ export class UsersResolver {
   public async register(
     @Args('register') register: RegisterInput,
   ): Promise<User> {
+    Logger.log('UsersResolver: Register ' + register.email);
     return UserMapper.toDTO(await this.registerService.register(register));
   }
 
   @UseGuards(JwtAuthGuard)
   @Query(/* istanbul ignore next */ returns => User)
   public async showProfile(@Args('_id') _id: string): Promise<User> {
+    Logger.log('UsersResolver: Show profile for user' + _id);
     return UserMapper.toDTO(await this.profileDisplayer.show(_id));
   }
 
@@ -39,12 +41,14 @@ export class UsersResolver {
   public async updateProfile(
     @Args('profile') profile: ProfileInput,
   ): Promise<User> {
+    Logger.log('UsersResolver: Update profile for user ' + profile._id);
     return UserMapper.toDTO(await this.profileUpdater.update(profile));
   }
 
   @UseGuards(JwtAuthGuard)
   @Mutation(/* istanbul ignore next */ returns => User)
   public async suspend(@Args('_id') _id: string): Promise<User> {
+    Logger.log('UsersResolver: Suspend for user ' + _id);
     return UserMapper.toDTO(await this.suspender.suspend(_id));
   }
 
@@ -54,6 +58,7 @@ export class UsersResolver {
     @Args('_id') _id: string,
     @Args('password') password: string,
   ): Promise<User> {
+    Logger.log('UsersResolver: Update password for user ' + _id);
     return UserMapper.toDTO(await this.passwordUpdater.update(_id, password));
   }
 }

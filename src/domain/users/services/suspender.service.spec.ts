@@ -1,8 +1,8 @@
-import { ValidationError } from 'apollo-server-express';
 import { Repository } from 'typeorm';
 import { User } from '../user.model';
 import { Suspender } from './suspender.service';
 import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
+import { SuspenderUnknownUserError } from './errors/suspender.unknown.user.error';
 
 describe('Suspender', () => {
   const _ID = 'test';
@@ -38,12 +38,14 @@ describe('Suspender', () => {
       expect(suspendUser.isSuspended).toEqual(IS_SUSPENDED);
     });
 
-    it('should throw validation error with findOne', async () => {
+    it('should throw SuspenderUnknownUserError', async () => {
       jest
         .spyOn(usersRepository, 'findOne')
         .mockImplementation(async () => undefined);
 
-      expect(suspender.suspend(_ID)).rejects.toThrowError(ValidationError);
+      await expect(suspender.suspend(_ID)).rejects.toThrowError(
+        SuspenderUnknownUserError,
+      );
     });
   });
 });

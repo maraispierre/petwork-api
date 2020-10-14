@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { JwtToken } from '../../application/api/auth/models/jwt-token.model';
 import { LoginInput } from '../../application/api/auth/inputs/login.input';
@@ -23,6 +23,7 @@ export class AuthService {
       };
     }
 
+    Logger.error('AuthService : Login failed');
     throw new AuthenticationError('Login failed');
   }
 }

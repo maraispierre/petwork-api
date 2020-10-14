@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { EmailSender } from './email.sender.interface';
 import { SendinBlueSender } from './sendin-blue-sender.service';
+import { EmailSenderError } from './email.sender.error';
 
 @Injectable()
 export class EmailsSender implements EmailSender {
@@ -9,6 +10,13 @@ export class EmailsSender implements EmailSender {
   public constructor(private readonly emailSender: SendinBlueSender) {}
 
   public async sendEmail(templateId: number, receiver: string): Promise<void> {
-    return await this.emailSender.sendEmail(templateId, receiver);
+    try {
+      await this.emailSender.sendEmail(templateId, receiver);
+    } catch (error) {
+      Logger.error('EmailSender : Impossible to send email : ' + error.message);
+      throw new EmailSenderError(
+        'EmailSender : Error when application try to send email : email not send',
+      );
+    }
   }
 }
