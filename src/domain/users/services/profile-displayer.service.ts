@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { ValidationError } from 'apollo-server-express';
+import { Injectable, Logger } from '@nestjs/common';
 import { User } from '../user.model';
 import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
+import { ProfileDisplayerUnknownUserError } from './errors/profile.displayer.unknown.user.error';
 
 @Injectable()
 export class ProfileDisplayer {
@@ -14,6 +14,9 @@ export class ProfileDisplayer {
       return user;
     }
 
-    throw new ValidationError('Missing user with id :' + _id);
+    Logger.error(
+      'ProfileDisplayer : Impossible to show this profile, user not found',
+    );
+    throw new ProfileDisplayerUnknownUserError('Missing user with id :' + _id);
   }
 }

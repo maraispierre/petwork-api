@@ -1,9 +1,9 @@
-import { ValidationError } from 'apollo-server-express';
 import { Repository } from 'typeorm';
 import { User } from '../user.model';
 import { PasswordUpdater } from './password-updater.service';
 import * as bcrypt from 'bcrypt';
 import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
+import { PasswordUpdaterUnknownUserError } from './errors/password.updater.unknown.user.error';
 
 describe('PasswordUpdater', () => {
   const _ID = 'test';
@@ -44,9 +44,9 @@ describe('PasswordUpdater', () => {
         .spyOn(usersRepository, 'findOne')
         .mockImplementation(async () => undefined);
 
-      expect(passwordUpdater.update(_ID, NEW_PASSWORD)).rejects.toThrowError(
-        ValidationError,
-      );
+      await expect(
+        passwordUpdater.update(_ID, NEW_PASSWORD),
+      ).rejects.toThrowError(PasswordUpdaterUnknownUserError);
     });
   });
 });

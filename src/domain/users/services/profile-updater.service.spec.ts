@@ -1,9 +1,9 @@
-import { ValidationError } from 'apollo-server-express';
 import { Repository } from 'typeorm';
 import { User } from '../user.model';
 import { ProfileUpdater } from './profile-updater.service';
 import { ProfileInput } from '../../../application/api/users/inputs/profile.input';
 import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
+import { ProfileUpdaterUnknownUserError } from './errors/profile.updater.unknown.user.error';
 
 describe('ProfileUpdater', () => {
   const _ID = 'test';
@@ -44,15 +44,15 @@ describe('ProfileUpdater', () => {
       expect(updatedProfile.isSuspended).toEqual(IS_SUSPENDED);
     });
 
-    it('should throw validation error with findOne', async () => {
+    it('should throw ProfileUpdaterUnknownUserError', async () => {
       jest
         .spyOn(usersRepository, 'findOne')
         .mockImplementation(async () => undefined);
 
       const profile = new ProfileInput(_ID, NEW_FIRSTNAME, NEW_LASTNAME);
 
-      expect(profileUpdater.update(profile)).rejects.toThrowError(
-        ValidationError,
+      await expect(profileUpdater.update(profile)).rejects.toThrowError(
+        ProfileUpdaterUnknownUserError,
       );
     });
   });
