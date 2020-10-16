@@ -29,13 +29,13 @@ describe('Register', () => {
 
   describe('register', () => {
     it('should register an user', async () => {
-      const subscription = new RegisterInput(
+      const registerInput = new RegisterInput(
         EMAIL,
         PASSWORD,
         FIRSTNAME,
         LASTNAME,
       );
-      const mockedUser = User.subscribe(subscription);
+      const mockedUser = User.subscribe(registerInput);
 
       jest
         .spyOn(usersRepository, 'save')
@@ -47,13 +47,13 @@ describe('Register', () => {
         .spyOn(emailsSender, 'sendEmail')
         .mockImplementation(async () => undefined);
 
-      const subscriber = await register.register(subscription);
+      const user = await register.register(registerInput);
 
-      expect(subscriber.email).toEqual(EMAIL);
-      expect(await bcrypt.compare(PASSWORD, subscriber.password)).toEqual(true);
-      expect(subscriber.firstname).toEqual(FIRSTNAME);
-      expect(subscriber.lastname).toEqual(LASTNAME);
-      expect(subscriber.isSuspended).toEqual(IS_SUSPENDED);
+      expect(user.email).toEqual(EMAIL);
+      expect(await bcrypt.compare(PASSWORD, user.password)).toEqual(true);
+      expect(user.firstname).toEqual(FIRSTNAME);
+      expect(user.lastname).toEqual(LASTNAME);
+      expect(user.isSuspended).toEqual(IS_SUSPENDED);
     });
 
     it('should throw RegisterDuplicatedEmailError', async () => {
@@ -68,14 +68,14 @@ describe('Register', () => {
         .spyOn(emailsSender, 'sendEmail')
         .mockImplementation(async () => undefined);
 
-      const subscriptionInput = new RegisterInput(
+      const registerInput = new RegisterInput(
         EMAIL,
         PASSWORD,
         FIRSTNAME,
         LASTNAME,
       );
 
-      await expect(register.register(subscriptionInput)).rejects.toThrowError(
+      await expect(register.register(registerInput)).rejects.toThrowError(
         RegisterDuplicatedEmailError,
       );
     });
@@ -92,14 +92,14 @@ describe('Register', () => {
         throw new RegisterSendEmailError();
       });
 
-      const subscriptionInput = new RegisterInput(
+      const registerInput = new RegisterInput(
         EMAIL,
         PASSWORD,
         FIRSTNAME,
         LASTNAME,
       );
 
-      await expect(register.register(subscriptionInput)).rejects.toThrowError(
+      await expect(register.register(registerInput)).rejects.toThrowError(
         RegisterSendEmailError,
       );
     });

@@ -47,13 +47,13 @@ describe('UsersResolver', () => {
 
       jest.spyOn(register, 'register').mockImplementation(async () => user);
 
-      const subscriptionInput = new RegisterInput(
+      const registerInput = new RegisterInput(
         EMAIL,
         PASSWORD,
         FIRSTNAME,
         LASTNAME,
       );
-      expect(await usersResolver.register(subscriptionInput)).toEqual(user);
+      expect(await usersResolver.register(registerInput)).toEqual(user);
     });
   });
 
