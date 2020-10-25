@@ -1,6 +1,6 @@
 import { JwtService } from '@nestjs/jwt';
 import { AuthResolver } from './auth.resolver';
-import { AuthService } from '../../../domain/auth/auth.service';
+import { Authentication } from '../../../domain/auth/authentication.service';
 import { LoginInput } from './inputs/login.input';
 import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
 
@@ -9,11 +9,11 @@ describe('AuthResolver', () => {
 
   let usersRepository: UsersRepository;
   let jwtService: JwtService;
-  let authService: AuthService;
+  let authService: Authentication;
   let authResolver: AuthResolver;
 
   beforeEach(async () => {
-    authService = new AuthService(usersRepository, jwtService);
+    authService = new Authentication(usersRepository, jwtService);
     authResolver = new AuthResolver(authService);
   });
 

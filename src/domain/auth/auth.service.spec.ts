@@ -1,6 +1,6 @@
 import { JwtModuleOptions, JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
-import { AuthService } from './auth.service';
+import { Authentication } from './authentication.service';
 import { AuthenticationError } from 'apollo-server-express';
 import { User } from '../users/user.model';
 import { UsersRepository } from '../../infrastructure/persistence/users/users.repository';
@@ -15,7 +15,7 @@ describe('AuthService', () => {
   const FIRSTNAME_USER = 'test';
   const LASTNAME_USER = 'test';
 
-  let authService: AuthService;
+  let authService: Authentication;
   let usersRepository: UsersRepository;
   let jwtOptions: JwtModuleOptions;
   let jwtService: JwtService;
@@ -23,7 +23,7 @@ describe('AuthService', () => {
   beforeEach(async () => {
     jwtService = new JwtService(jwtOptions);
     usersRepository = new UsersRepository(new Repository<User>());
-    authService = new AuthService(usersRepository, jwtService);
+    authService = new Authentication(usersRepository, jwtService);
   });
 
   describe('login', () => {

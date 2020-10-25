@@ -7,7 +7,7 @@ import { AuthenticationError } from 'apollo-server-express';
 import { UsersRepository } from '../../infrastructure/persistence/users/users.repository';
 
 @Injectable()
-export class AuthService {
+export class Authentication {
   constructor(
     private usersRepository: UsersRepository,
     private jwtService: JwtService,
@@ -23,7 +23,7 @@ export class AuthService {
       };
     }
 
-    Logger.error('AuthService : Login failed');
-    throw new AuthenticationError('Login failed');
+    Logger.error('Authentication : Login failed');
+    throw new AuthenticationError('Authentication : Login failed');
   }
 }
