@@ -19,7 +19,7 @@ export class Register {
         'Register : Impossible to register user : User with this email already exists',
       );
       throw new RegisterDuplicatedEmailError(
-        'Register : User with this email already exists'
+        'Register : User with this email already exists',
       );
     }
 

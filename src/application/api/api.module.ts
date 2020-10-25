@@ -3,7 +3,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { DomainModule } from '../../domain/domain.module';
 import { UsersResolver } from './users/users.resolver';
 import { AuthResolver } from './auth/auth.resolver';
-import { AuthModule } from '../../domain/auth/auth.module';
+import { AuthenticationModule } from '../../domain/auth/authentication.module';
 
 @Module({
   imports: [
@@ -12,7 +12,7 @@ import { AuthModule } from '../../domain/auth/auth.module';
       autoSchemaFile: 'schema.gql',
     }),
     DomainModule,
-    AuthModule,
+    AuthenticationModule,
   ],
   providers: [UsersResolver, AuthResolver],
 })

@@ -6,6 +6,7 @@ import { UsersRepository } from '../../../infrastructure/persistence/users/users
 
 describe('AuthResolver', () => {
   const ACCESS_TOKEN = 'test';
+  const _ID_USER = 'id';
 
   let usersRepository: UsersRepository;
   let jwtService: JwtService;
@@ -21,6 +22,7 @@ describe('AuthResolver', () => {
     it('should return a jwt token', async () => {
       const jwtToken = {
         access_token: ACCESS_TOKEN,
+        user_id: _ID_USER,
       };
 
       const loginInput = new LoginInput();

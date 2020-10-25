@@ -11,8 +11,9 @@ type User {
   isSuspended: Boolean!
 }
 
-type JwtToken {
+type Login {
   access_token: String!
+  user_id: String!
 }
 
 type Query {
@@ -24,7 +25,7 @@ type Mutation {
   updateProfile(profile: ProfileInput!): User!
   suspend(_id: String!): User!
   updatePassword(password: String!, _id: String!): User!
-  login(login: LoginInput!): JwtToken!
+  login(login: LoginInput!): Login!
 }
 
 input RegisterInput {

@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { JwtToken } from '../../application/api/auth/models/jwt-token.model';
+import { Login } from '../../application/api/auth/models/login.model';
 import { LoginInput } from '../../application/api/auth/inputs/login.input';
 import * as bcrypt from 'bcrypt';
 import { AuthenticationError } from 'apollo-server-express';
@@ -13,13 +13,18 @@ export class Authentication {
     private jwtService: JwtService,
   ) {}
 
-  async login(login: LoginInput): Promise<JwtToken> {
+  async login(login: LoginInput): Promise<Login> {
     const user = await this.usersRepository.findOneByEmail(login.email);
 
-    if (user && (await bcrypt.compare(login.password, user.password))) {
+    if (
+      user &&
+      user._id &&
+      (await bcrypt.compare(login.password, user.password))
+    ) {
       const payload = { email: login.email };
       return {
         access_token: this.jwtService.sign(payload),
+        user_id: user._id,
       };
     }
 

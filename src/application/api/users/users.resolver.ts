@@ -32,7 +32,7 @@ export class UsersResolver {
   @UseGuards(JwtAuthGuard)
   @Query(/* istanbul ignore next */ returns => User)
   public async showProfile(@Args('_id') _id: string): Promise<User> {
-    Logger.log('UsersResolver: Show profile for user' + _id);
+    Logger.log('UsersResolver: Show profile for user ' + _id);
     return UserMapper.toDTO(await this.profileDisplayer.show(_id));
   }
 

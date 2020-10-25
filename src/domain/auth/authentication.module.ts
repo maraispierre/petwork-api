@@ -18,4 +18,4 @@ import { PersistenceModule } from '../../infrastructure/persistence/persistence.
   providers: [Authentication, JwtStrategy],
   exports: [Authentication],
 })
-export class AuthModule {}
+export class AuthenticationModule {}
