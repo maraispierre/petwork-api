@@ -8,8 +8,6 @@ dotenv.config();
 const httpsKeyPath: string = process.env.HTTPS_KEY_PATH ?? '';
 const httpsCertPath: string = process.env.HTTPS_CERT_PATH ?? '';
 
-console.log('test' + httpsCertPath);
-
 const httpsOptions = {
   key: fs.readFileSync(httpsKeyPath),
   cert: fs.readFileSync(httpsCertPath),
