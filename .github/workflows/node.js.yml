@@ -28,5 +28,6 @@ jobs:
       env:
         SENDIN_BLUE_API_KEY: ${{ secrets.SENDIN_BLUE_API_KEY }}
     - run: yarn install
+    - run: echo $SENDIN_BLUE_API_KEY
     - run: yarn run test
     - run: yarn run test:cov
