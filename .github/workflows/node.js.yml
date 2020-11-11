@@ -24,6 +24,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+        SENDIN_BLUE_API_KEY: ${{ secrets.SENDIN_BLUE_API_KEY }}
       env:
         SENDIN_BLUE_API_KEY: ${{ secrets.SENDIN_BLUE_API_KEY }}
     - run: yarn install
