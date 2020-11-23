@@ -7,5 +7,6 @@ services:
         container_name: petwork-srv
         environment: 
             - MONGO_DB_URL=${MONGO_DB_URL}
+            - SENDIN_BLUE_API_KEY=${SENDIN_BLUE_API_KEY}
         ports:
-            - 3000:3000
+            - 80:80
