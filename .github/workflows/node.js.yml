@@ -6,31 +6,8 @@ on:
   pull_request:
     branches: [ master ]
 
-jobs:
+jobs:      
   build:
-
-    name: Build
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [12.x]
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: yarn install
-    - run: yarn run test
-      env:
-        SENDIN_BLUE_API_KEY: ${{ secrets.SENDIN_BLUE_API_KEY }}
-    - run: yarn run test:cov
-      env:
-        SENDIN_BLUE_API_KEY: ${{ secrets.SENDIN_BLUE_API_KEY }}
-        
-  deploy:
     name: Deploy
     runs-on: ubuntu-latest
 
@@ -53,9 +30,28 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: my-ecr-repo
+          ECR_REPOSITORY: petwork-api
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: yarn install
+    - run: yarn run test:cov
+      env:
+        SENDIN_BLUE_API_KEY: ${{ secrets.SENDIN_BLUE_API_KEY }}
