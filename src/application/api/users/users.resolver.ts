@@ -10,6 +10,8 @@ import { Suspender } from '../../../domain/users/services/suspender.service';
 import { PasswordUpdater } from '../../../domain/users/services/password-updater.service';
 import { User } from './user.schema';
 import { UserMapper } from '../../../infrastructure/mappers/user.mapper';
+import { AvatarManager } from '../../../domain/users/services/avatar-manager.service';
+import { FileUpload, GraphQLUpload } from 'graphql-upload';
 
 @Resolver(of => User)
 export class UsersResolver {
@@ -19,6 +21,7 @@ export class UsersResolver {
     private readonly profileUpdater: ProfileUpdater,
     private readonly suspender: Suspender,
     private readonly passwordUpdater: PasswordUpdater,
+    private readonly avatarManager: AvatarManager,
   ) {}
 
   @Mutation(/* istanbul ignore next */ returns => User)
@@ -60,5 +63,13 @@ export class UsersResolver {
   ): Promise<User> {
     Logger.log('UsersResolver: Update password for user ' + _id);
     return UserMapper.toDTO(await this.passwordUpdater.update(_id, password));
+  }
+
+  @Mutation(/* istanbul ignore next */ returns => User)
+  public async updateAvatar(
+    @Args('_id') _id: string,
+    @Args({ name: 'avatar', type: () => GraphQLUpload }) avatar: FileUpload,
+  ): Promise<User> {
+    return UserMapper.toDTO(await this.avatarManager.updateAvatar(_id, avatar));
   }
 }

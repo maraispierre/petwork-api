@@ -6,6 +6,7 @@ import { Suspender } from './services/suspender.service';
 import { PasswordUpdater } from './services/password-updater.service';
 import { PersistenceModule } from '../../infrastructure/persistence/persistence.module';
 import { EmailsModule } from '../../infrastructure/emails/emails.module';
+import { AvatarManager } from './services/avatar-manager.service';
 
 @Module({
   imports: [PersistenceModule, EmailsModule],
@@ -15,6 +16,7 @@ import { EmailsModule } from '../../infrastructure/emails/emails.module';
     ProfileUpdater,
     Suspender,
     PasswordUpdater,
+    AvatarManager
   ],
   exports: [
     Register,
@@ -22,6 +24,7 @@ import { EmailsModule } from '../../infrastructure/emails/emails.module';
     ProfileUpdater,
     Suspender,
     PasswordUpdater,
+    AvatarManager
   ],
 })
 export class UsersModule {}

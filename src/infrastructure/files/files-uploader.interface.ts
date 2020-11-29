@@ -1,3 +1,5 @@
+import { FileUpload } from 'graphql-upload';
+
 export interface IFilesUploaderInterface {
-  upload(dataBuffer: Buffer, filename: string);
+  upload(file: FileUpload);
 }
