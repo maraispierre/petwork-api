@@ -1,13 +1,13 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as SibApiV3Sdk from 'sib-api-v3-sdk';
-import { EmailSender } from './email.sender.interface';
+import { IEmailsSender } from './emails-sender.interface';
 import { SendinBlueApiError } from './sendin.blue.api.error';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
 
 @Injectable()
-export class SendinBlueSender implements EmailSender {
+export class SendinBlueSender implements IEmailsSender {
   public constructor() {
     const defaultClient = SibApiV3Sdk.ApiClient.instance;
 
