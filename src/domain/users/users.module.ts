@@ -17,7 +17,7 @@ import { FilesModule } from '../../infrastructure/files/files.module';
     ProfileUpdater,
     Suspender,
     PasswordUpdater,
-    AvatarManager
+    AvatarManager,
   ],
   exports: [
     Register,
@@ -25,7 +25,7 @@ import { FilesModule } from '../../infrastructure/files/files.module';
     ProfileUpdater,
     Suspender,
     PasswordUpdater,
-    AvatarManager
+    AvatarManager,
   ],
 })
 export class UsersModule {}

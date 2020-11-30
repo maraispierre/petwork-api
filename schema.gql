@@ -25,7 +25,7 @@ type Mutation {
   updateProfile(profile: ProfileInput!): User!
   suspend(_id: String!): User!
   updatePassword(password: String!, _id: String!): User!
-  updateAvatar(avatar: Upload!, _id: String!): User!
+  updateAvatar(avatar: Upload!): User!
   login(login: LoginInput!): Login!
 }
 

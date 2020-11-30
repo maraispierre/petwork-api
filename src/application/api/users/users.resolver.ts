@@ -11,7 +11,8 @@ import { PasswordUpdater } from '../../../domain/users/services/password-updater
 import { User } from './user.schema';
 import { UserMapper } from '../../../infrastructure/mappers/user.mapper';
 import { AvatarManager } from '../../../domain/users/services/avatar-manager.service';
-import { FileUpload, GraphQLUpload } from 'graphql-upload';
+import { FileUpload } from 'graphql-upload';
+import { GraphQLUpload } from 'apollo-server-express';
 
 @Resolver(of => User)
 export class UsersResolver {
@@ -67,9 +68,10 @@ export class UsersResolver {
 
   @Mutation(/* istanbul ignore next */ returns => User)
   public async updateAvatar(
-    @Args('_id') _id: string,
     @Args({ name: 'avatar', type: () => GraphQLUpload }) avatar: FileUpload,
   ): Promise<User> {
+    const _id = '';
+    Logger.log('UsersResolver: Update avatar for user ' + _id);
     return UserMapper.toDTO(await this.avatarManager.updateAvatar(_id, avatar));
   }
 }

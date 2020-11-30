@@ -12,6 +12,7 @@ export class AvatarManager {
   ) {}
 
   public async updateAvatar(_id: string, avatar: FileUpload): Promise<User> {
+    await this.filesUploader.upload(avatar);
     return new User('', '', '', '', '');
   }
 }

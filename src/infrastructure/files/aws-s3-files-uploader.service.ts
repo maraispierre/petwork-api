@@ -21,11 +21,13 @@ export class AwsS3FilesUploader implements IFilesUploaderInterface {
   public async upload(file: FileUpload) {
     const s3 = new S3();
     try {
-      await s3.upload({
-        Bucket: process.env.AWS_PUBLIC_BUCKET_NAME ?? '',
-        Body: file.createReadStream(),
-        Key: `${uuid()}-${file.filename}`,
-      });
+      await s3
+        .upload({
+          Bucket: process.env.AWS_PUBLIC_BUCKET_NAME ?? '',
+          Body: file.createReadStream(),
+          Key: `${uuid()}-${file.filename}`,
+        })
+        .promise();
     } catch (error) {
       Logger.error(
         'FilesUploaderService : Error when upload file to AWS S3 : ' +
