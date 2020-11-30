@@ -7,9 +7,10 @@ import { PasswordUpdater } from './services/password-updater.service';
 import { PersistenceModule } from '../../infrastructure/persistence/persistence.module';
 import { EmailsModule } from '../../infrastructure/emails/emails.module';
 import { AvatarManager } from './services/avatar-manager.service';
+import { FilesModule } from '../../infrastructure/files/files.module';
 
 @Module({
-  imports: [PersistenceModule, EmailsModule],
+  imports: [PersistenceModule, EmailsModule, FilesModule],
   providers: [
     Register,
     ProfileDisplayer,

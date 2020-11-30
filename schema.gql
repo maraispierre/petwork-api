@@ -25,6 +25,7 @@ type Mutation {
   updateProfile(profile: ProfileInput!): User!
   suspend(_id: String!): User!
   updatePassword(password: String!, _id: String!): User!
+  updateAvatar(avatar: Upload!, _id: String!): User!
   login(login: LoginInput!): Login!
 }
 
@@ -40,6 +41,9 @@ input ProfileInput {
   firstname: String!
   lastname: String!
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 input LoginInput {
   email: String!
