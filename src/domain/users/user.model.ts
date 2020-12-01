@@ -15,7 +15,7 @@ export class User {
 
   lastname: string;
 
-  avatar: File;
+  avatar: File | undefined;
 
   isSuspended: boolean;
 
@@ -26,6 +26,7 @@ export class User {
     password: string,
     firstname: string,
     lastname: string,
+    avatar: File | undefined = undefined,
   ) {
     this._id = _id;
     this.email = email;
@@ -33,6 +34,7 @@ export class User {
     this.firstname = firstname;
     this.lastname = lastname;
     this.isSuspended = false;
+    this.avatar = avatar;
   }
 
   public static async subscribe(subscription: RegisterInput) {
@@ -64,7 +66,7 @@ export class User {
     this.password = bcrypt.hashSync(password, globalConstants.bcryptSaltRounds);
   }
 
-  public changeAvatar(avatar: File): void {
+  public updateAvatar(avatar: File): void {
     this.avatar = avatar;
   }
 }

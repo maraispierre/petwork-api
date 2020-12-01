@@ -70,7 +70,7 @@ export class UsersResolver {
   public async updateAvatar(
     @Args({ name: 'avatar', type: () => GraphQLUpload }) avatar: FileUpload,
   ): Promise<User> {
-    const _id = '';
+    const _id = '5fc69c237ceadd09643a31e9';
     Logger.log('UsersResolver: Update avatar for user ' + _id);
     return UserMapper.toDTO(await this.avatarManager.updateAvatar(_id, avatar));
   }

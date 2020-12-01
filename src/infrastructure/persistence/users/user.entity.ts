@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ObjectIdColumn, OneToOne } from 'typeorm';
+import { Column, Entity, ObjectIdColumn } from 'typeorm';
 import { File } from '../files/files.entity';
 
 @Entity()
@@ -18,9 +18,8 @@ export class User {
   @Column()
   lastname: string;
 
-  @OneToOne(() => File)
-  @JoinColumn()
-  avatar: File;
+  @Column(type => File)
+  avatar: File | undefined;
 
   @Column()
   isSuspended: boolean;
@@ -32,6 +31,7 @@ export class User {
     password: string,
     firstname: string,
     lastname: string,
+    avatar: File | undefined = undefined,
   ) {
     this._id = _id;
     this.email = email;
@@ -39,5 +39,6 @@ export class User {
     this.firstname = firstname;
     this.lastname = lastname;
     this.isSuspended = false;
+    this.avatar = avatar;
   }
 }

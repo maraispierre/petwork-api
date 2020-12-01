@@ -2,12 +2,18 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type File {
+  _id: ID!
+  location: String!
+}
+
 type User {
   _id: ID!
   email: String!
   password: String!
   firstname: String!
   lastname: String!
+  avatar: File!
   isSuspended: Boolean!
 }
 
