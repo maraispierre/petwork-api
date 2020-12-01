@@ -1,4 +1,5 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { File } from '../files/file.schema';
 
 @ObjectType()
 export class User {
@@ -16,6 +17,9 @@ export class User {
 
   @Field()
   lastname: string;
+
+  @Field(/* istanbul ignore next */ () => File)
+  avatar: File;
 
   @Field()
   isSuspended: boolean;

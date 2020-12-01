@@ -1,4 +1,5 @@
-import { Column, Entity, ObjectIdColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ObjectIdColumn, OneToOne } from 'typeorm';
+import { File } from '../files/files.entity';
 
 @Entity()
 export class User {
@@ -16,6 +17,10 @@ export class User {
 
   @Column()
   lastname: string;
+
+  @OneToOne(() => File)
+  @JoinColumn()
+  avatar: File;
 
   @Column()
   isSuspended: boolean;

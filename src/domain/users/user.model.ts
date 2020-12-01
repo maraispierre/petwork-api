@@ -2,6 +2,7 @@ import * as bcrypt from 'bcrypt';
 import { globalConstants } from '../../constant';
 import { RegisterInput } from '../../application/api/users/inputs/register.input';
 import { ProfileInput } from '../../application/api/users/inputs/profile.input';
+import { File } from '../files/file.model';
 
 export class User {
   _id: string | undefined;
@@ -13,6 +14,8 @@ export class User {
   firstname: string;
 
   lastname: string;
+
+  avatar: File;
 
   isSuspended: boolean;
 
@@ -59,5 +62,9 @@ export class User {
 
   public updatePassword(password: string): void {
     this.password = bcrypt.hashSync(password, globalConstants.bcryptSaltRounds);
+  }
+
+  public changeAvatar(avatar: File): void {
+    this.avatar = avatar;
   }
 }
