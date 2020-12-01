@@ -18,7 +18,7 @@ export class User {
   @Column()
   lastname: string;
 
-  @Column(type => File)
+  @Column()
   avatar: File | undefined;
 
   @Column()
