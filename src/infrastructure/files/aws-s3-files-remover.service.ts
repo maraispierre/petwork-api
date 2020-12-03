@@ -6,11 +6,12 @@ import { v4 as uuid } from 'uuid';
 import { IFilesUploaderInterface } from './files-uploader.interface';
 import { FileUpload } from 'graphql-upload';
 import { File } from '../../domain/files/file.model';
+import { IFilesRemoverInterface } from './files-remover.interface';
 
 dotenv.config();
 
 @Injectable()
-export class AwsS3FilesUploader implements IFilesUploaderInterface {
+export class AwsS3FilesRemover implements IFilesRemoverInterface {
   public constructor() {
     config.update({
       accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -19,33 +20,25 @@ export class AwsS3FilesUploader implements IFilesUploaderInterface {
     });
   }
 
-  public async upload(file: FileUpload): Promise<File> {
+  public async remove(file: File): Promise<File> {
     const s3 = new S3();
     try {
-      const _id = uuid();
-      const key = `${_id}-${file.filename}`;
-      const body = file.createReadStream();
-      const managedUpload = await s3
-        .upload({
+      const key = `${file._id}-${file.name}`;
+      await s3
+        .deleteObject({
           Bucket: process.env.AWS_PUBLIC_BUCKET_NAME ?? '',
-          Body: body,
           Key: key,
         })
         .promise();
 
-      return new File(
-        _id,
-        file.filename,
-        managedUpload.Location,
-        body.bytesRead,
-      );
+      return file;
     } catch (error) {
       Logger.error(
-        'AwsS3FilesUploader : Error when upload file to AWS S3 : ' +
+        'AwsS3FilesRemover : Error when remove file from AWS S3 : ' +
           error.message,
       );
       throw new FilesUploaderError(
-        'AwsS3FilesUploader : Error when upload file to AWS S3',
+        'AwsS3FilesRemover : Error when remove file from AWS S3',
       );
     }
   }

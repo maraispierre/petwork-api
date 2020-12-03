@@ -1,16 +1,16 @@
-import { Column, Entity, ObjectIdColumn } from 'typeorm';
+import { Column, Entity } from 'typeorm';
 
 @Entity()
 export class File {
-  @ObjectIdColumn()
-  _id: string;
+  @Column()
+  name: string;
 
   @Column()
   location: string;
 
   // noinspection DuplicatedCode
-  public constructor(_id: string, location: string) {
-    this._id = _id;
+  public constructor(name: string, location: string) {
+    this.name = name;
     this.location = location;
   }
 }

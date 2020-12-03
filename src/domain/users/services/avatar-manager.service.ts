@@ -5,12 +5,14 @@ import { FilesUploader } from '../../../infrastructure/files/files-uploader.serv
 import { FileUpload } from 'graphql-upload';
 import { PasswordUpdaterUnknownUserError } from './errors/password.updater.unknown.user.error';
 import { AvatarManagerUnknownUserError } from './errors/avatar.manager.unknown.user.error';
+import { FilesRemover } from '../../../infrastructure/files/files-remover.service';
 
 @Injectable()
 export class AvatarManager {
   public constructor(
-    private usersRepository: UsersRepository,
+    private readonly usersRepository: UsersRepository,
     private readonly filesUploader: FilesUploader,
+    private readonly filesRemover: FilesRemover,
   ) {}
 
   public async updateAvatar(_id: string, avatar: FileUpload): Promise<User> {
@@ -24,6 +26,10 @@ export class AvatarManager {
     }
 
     const uploadedAvatar = await this.filesUploader.upload(avatar);
+
+    if (user.avatar instanceof File) {
+      await this.filesRemover.remove(user.avatar);
+    }
 
     user.updateAvatar(uploadedAvatar);
 
