@@ -3,8 +3,10 @@
 # ------------------------------------------------------
 
 type File {
-  _id: ID!
+  _id: String!
+  name: String!
   location: String!
+  size: Float!
 }
 
 type User {
@@ -31,7 +33,7 @@ type Mutation {
   updateProfile(profile: ProfileInput!): User!
   suspend(_id: String!): User!
   updatePassword(password: String!, _id: String!): User!
-  updateAvatar(avatar: Upload!): User!
+  updateAvatar(avatar: Upload!, _id: String!): User!
   login(login: LoginInput!): Login!
 }
 

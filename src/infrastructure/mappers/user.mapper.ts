@@ -2,8 +2,6 @@ import { User as UserEntity } from '../persistence/users/user.entity';
 import { User } from '../../domain/users/user.model';
 import { User as UserDTO } from '../../application/api/users/user.schema';
 import { FileMapper } from './file.mapper';
-import { File as FileEntity } from '../persistence/files/files.entity';
-import { File } from '../../domain/files/file.model';
 
 export class UserMapper {
   public static toDomain(userEntity: UserEntity): User {
@@ -13,9 +11,7 @@ export class UserMapper {
       userEntity.password,
       userEntity.firstname,
       userEntity.lastname,
-      userEntity.avatar instanceof FileEntity
-        ? FileMapper.toDomain(userEntity.avatar)
-        : undefined,
+      userEntity.avatar ? FileMapper.toDomain(userEntity.avatar) : undefined,
     );
   }
 
@@ -26,9 +22,7 @@ export class UserMapper {
       user.password,
       user.firstname,
       user.lastname,
-      user.avatar instanceof File
-        ? FileMapper.toPersistence(user.avatar)
-        : undefined,
+      user.avatar ? FileMapper.toPersistence(user.avatar) : undefined,
     );
   }
 
@@ -39,7 +33,7 @@ export class UserMapper {
       user.password,
       user.firstname,
       user.lastname,
-      user.avatar instanceof File ? FileMapper.toDTO(user.avatar) : undefined,
+      user.avatar ? FileMapper.toDTO(user.avatar) : undefined,
     );
   }
 }

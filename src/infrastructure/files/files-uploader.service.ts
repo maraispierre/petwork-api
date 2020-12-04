@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { IFilesUploaderInterface } from './files-uploader.interface';
 import { AwsS3FilesUploader } from './aws-s3-files-uploader.service';
 import { FileUpload } from 'graphql-upload';
@@ -9,6 +9,7 @@ export class FilesUploader implements IFilesUploaderInterface {
   constructor(private readonly filesUploader: AwsS3FilesUploader) {}
 
   async upload(file: FileUpload): Promise<File> {
+    Logger.log('FilesUploader: Upload file ' + file.filename);
     return await this.filesUploader.upload(file);
   }
 }

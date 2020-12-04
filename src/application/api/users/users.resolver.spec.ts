@@ -9,6 +9,11 @@ import { Suspender } from '../../../domain/users/services/suspender.service';
 import { PasswordUpdater } from '../../../domain/users/services/password-updater.service';
 import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
 import { EmailsSender } from '../../../infrastructure/emails/emails-sender.service';
+import { AvatarManager } from '../../../domain/users/services/avatar-manager.service';
+import { FilesUploader } from '../../../infrastructure/files/files-uploader.service';
+import { FilesRemover } from '../../../infrastructure/files/files-remover.service';
+import { FileUpload } from 'graphql-upload';
+import { ReadStream } from 'fs';
 
 describe('UsersResolver', () => {
   const _ID = 'test';
@@ -20,11 +25,14 @@ describe('UsersResolver', () => {
   let usersResolver: UsersResolver;
   let usersRepository: UsersRepository;
   let emailsSender: EmailsSender;
+  let filesUploader: FilesUploader;
+  let filesRemover: FilesRemover;
   let register: Register;
   let profileDisplayer: ProfileDisplayer;
   let profileUpdater: ProfileUpdater;
   let suspender: Suspender;
   let passwordUpdater: PasswordUpdater;
+  let avatarManager: AvatarManager;
 
   beforeEach(async () => {
     register = new Register(usersRepository, emailsSender);
@@ -32,12 +40,18 @@ describe('UsersResolver', () => {
     profileUpdater = new ProfileUpdater(usersRepository);
     suspender = new Suspender(usersRepository);
     passwordUpdater = new PasswordUpdater(usersRepository);
+    avatarManager = new AvatarManager(
+      usersRepository,
+      filesUploader,
+      filesRemover,
+    );
     usersResolver = new UsersResolver(
       register,
       profileDisplayer,
       profileUpdater,
       suspender,
       passwordUpdater,
+      avatarManager,
     );
   });
 
@@ -98,6 +112,24 @@ describe('UsersResolver', () => {
         .mockImplementation(async () => user);
 
       expect(await usersResolver.updatePassword(_ID, PASSWORD)).toEqual(user);
+    });
+  });
+
+  describe('updateAvatar', () => {
+    it('should return user', async () => {
+      const user = new User(_ID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
+      const file: FileUpload = {
+        filename: '',
+        mimetype: '',
+        encoding: '',
+        createReadStream(): ReadStream {
+          return new ReadStream();
+        },
+      };
+
+      jest.spyOn(avatarManager, 'update').mockImplementation(async () => user);
+
+      expect(await usersResolver.updateAvatar(_ID, file)).toEqual(user);
     });
   });
 });

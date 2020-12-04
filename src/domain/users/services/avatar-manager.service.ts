@@ -1,9 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { User } from '../user.model';
+import { File } from '../../files/file.model';
 import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
 import { FilesUploader } from '../../../infrastructure/files/files-uploader.service';
 import { FileUpload } from 'graphql-upload';
-import { PasswordUpdaterUnknownUserError } from './errors/password.updater.unknown.user.error';
 import { AvatarManagerUnknownUserError } from './errors/avatar.manager.unknown.user.error';
 import { FilesRemover } from '../../../infrastructure/files/files-remover.service';
 
@@ -15,7 +15,7 @@ export class AvatarManager {
     private readonly filesRemover: FilesRemover,
   ) {}
 
-  public async updateAvatar(_id: string, avatar: FileUpload): Promise<User> {
+  public async update(_id: string, avatar: FileUpload): Promise<User> {
     const user = await this.usersRepository.findOne(_id);
 
     if (!(user instanceof User)) {

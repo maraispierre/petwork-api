@@ -66,12 +66,13 @@ export class UsersResolver {
     return UserMapper.toDTO(await this.passwordUpdater.update(_id, password));
   }
 
+  @UseGuards(JwtAuthGuard)
   @Mutation(/* istanbul ignore next */ returns => User)
   public async updateAvatar(
+    @Args('_id') _id: string,
     @Args({ name: 'avatar', type: () => GraphQLUpload }) avatar: FileUpload,
   ): Promise<User> {
-    const _id = '5fc69c237ceadd09643a31e9';
     Logger.log('UsersResolver: Update avatar for user ' + _id);
-    return UserMapper.toDTO(await this.avatarManager.updateAvatar(_id, avatar));
+    return UserMapper.toDTO(await this.avatarManager.update(_id, avatar));
   }
 }
