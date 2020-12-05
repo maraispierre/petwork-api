@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { SendinBlueSender } from './sendin-blue-sender.service';
+import { SendinBlueSender } from './sendin-blue-sender.impl.service';
 import { EmailsSender } from './emails-sender.service';
 
 @Module({

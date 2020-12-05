@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { IEmailsSender } from './emails-sender.interface';
-import { SendinBlueSender } from './sendin-blue-sender.service';
+import { SendinBlueSender } from './sendin-blue-sender.impl.service';
 import { EmailsSenderError } from './emails-sender.error';
 
 @Injectable()

@@ -1,12 +1,9 @@
 import { config, S3 } from 'aws-sdk';
 import * as dotenv from 'dotenv';
-import { FilesUploaderError } from './files-uploader.error';
 import { Injectable, Logger } from '@nestjs/common';
-import { v4 as uuid } from 'uuid';
-import { IFilesUploaderInterface } from './files-uploader.interface';
-import { FileUpload } from 'graphql-upload';
 import { File } from '../../domain/files/file.model';
 import { IFilesRemoverInterface } from './files-remover.interface';
+import { AwsS3Error } from './aws-s3.error';
 
 dotenv.config();
 
@@ -37,7 +34,7 @@ export class AwsS3FilesRemover implements IFilesRemoverInterface {
         'AwsS3FilesRemover : Error when remove file from AWS S3 : ' +
           error.message,
       );
-      throw new FilesUploaderError(
+      throw new AwsS3Error(
         'AwsS3FilesRemover : Error when remove file from AWS S3',
       );
     }

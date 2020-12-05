@@ -14,6 +14,7 @@ import { FilesUploader } from '../../../infrastructure/files/files-uploader.serv
 import { FilesRemover } from '../../../infrastructure/files/files-remover.service';
 import { FileUpload } from 'graphql-upload';
 import { ReadStream } from 'fs';
+import { File } from '../../../domain/files/file.model';
 
 describe('UsersResolver', () => {
   const _ID = 'test';
@@ -117,7 +118,14 @@ describe('UsersResolver', () => {
 
   describe('updateAvatar', () => {
     it('should return user', async () => {
-      const user = new User(_ID, EMAIL, PASSWORD, FIRSTNAME, LASTNAME);
+      const user = new User(
+        _ID,
+        EMAIL,
+        PASSWORD,
+        FIRSTNAME,
+        LASTNAME,
+        new File('', '', '', 0),
+      );
       const file: FileUpload = {
         filename: '',
         mimetype: '',

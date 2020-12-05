@@ -6,6 +6,7 @@ import { FilesUploader } from '../../../infrastructure/files/files-uploader.serv
 import { FileUpload } from 'graphql-upload';
 import { AvatarManagerUnknownUserError } from './errors/avatar.manager.unknown.user.error';
 import { FilesRemover } from '../../../infrastructure/files/files-remover.service';
+import { AvatarManagerUploadedFileError } from './errors/avatar.manager.uploaded.file.error';
 
 @Injectable()
 export class AvatarManager {
@@ -22,16 +23,31 @@ export class AvatarManager {
       Logger.error(
         'AvatarManager : Impossible to update avatar, user not found',
       );
-      throw new AvatarManagerUnknownUserError('Missing user with id :' + _id);
+      throw new AvatarManagerUnknownUserError(
+        'AvatarManager : Missing user with id :' + _id,
+      );
     }
 
-    const uploadedAvatar = await this.filesUploader.upload(avatar);
+    try {
+      const uploadedAvatar = await this.filesUploader.upload(avatar);
 
-    if (user.avatar instanceof File) {
-      await this.filesRemover.remove(user.avatar);
+      if (user.avatar instanceof File) {
+        try {
+          await this.filesRemover.remove(user.avatar);
+        } catch (error) {
+          Logger.warn(
+            'AvatarManager : Impossible to remove file with id ' +
+              user.avatar._id,
+          );
+        }
+      }
+
+      user.updateAvatar(uploadedAvatar);
+    } catch (error) {
+      throw new AvatarManagerUploadedFileError(
+        'AvatarManager : Impossible to update avatar, file upload failed',
+      );
     }
-
-    user.updateAvatar(uploadedAvatar);
 
     return this.usersRepository.save(user);
   }

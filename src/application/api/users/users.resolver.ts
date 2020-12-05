@@ -70,7 +70,11 @@ export class UsersResolver {
   @Mutation(/* istanbul ignore next */ returns => User)
   public async updateAvatar(
     @Args('_id') _id: string,
-    @Args({ name: 'avatar', type: () => GraphQLUpload }) avatar: FileUpload,
+    @Args({
+      name: 'avatar',
+      type: /* istanbul ignore next */ () => GraphQLUpload,
+    })
+    avatar: FileUpload,
   ): Promise<User> {
     Logger.log('UsersResolver: Update avatar for user ' + _id);
     return UserMapper.toDTO(await this.avatarManager.update(_id, avatar));

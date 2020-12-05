@@ -1,11 +1,11 @@
 import { config, S3 } from 'aws-sdk';
 import * as dotenv from 'dotenv';
-import { FilesUploaderError } from './files-uploader.error';
 import { Injectable, Logger } from '@nestjs/common';
 import { v4 as uuid } from 'uuid';
 import { IFilesUploaderInterface } from './files-uploader.interface';
 import { FileUpload } from 'graphql-upload';
 import { File } from '../../domain/files/file.model';
+import { AwsS3Error } from './aws-s3.error';
 
 dotenv.config();
 
@@ -44,7 +44,7 @@ export class AwsS3FilesUploader implements IFilesUploaderInterface {
         'AwsS3FilesUploader : Error when upload file to AWS S3 : ' +
           error.message,
       );
-      throw new FilesUploaderError(
+      throw new AwsS3Error(
         'AwsS3FilesUploader : Error when upload file to AWS S3',
       );
     }

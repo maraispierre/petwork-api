@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { FilesUploader } from './files-uploader.service';
-import { AwsS3FilesUploader } from './aws-s3-files-uploader.service';
-import { AwsS3FilesRemover } from './aws-s3-files-remover.service';
+import { AwsS3FilesUploader } from './aws-s3-files-uploader.impl.service';
+import { AwsS3FilesRemover } from './aws-s3-files-remover.impl.service';
 import { FilesRemover } from './files-remover.service';
 
 @Module({
