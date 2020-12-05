@@ -2,7 +2,7 @@ import { UsersRepository } from './users.repository';
 import { User as UserEntity } from './user.entity';
 import { Repository } from 'typeorm';
 import { User } from '../../../domain/users/user.model';
-import { DuplicatedUserError } from './duplicated.user.error';
+import { DuplicatedUserError } from './duplicated-user.error';
 import { File as FileEntity } from '../files/files.entity';
 import { File } from '../../../domain/files/file.model';
 

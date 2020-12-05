@@ -1,7 +1,7 @@
 import { SendinBlueSender } from './sendin-blue-sender.impl.service';
 import { EmailsSender } from './emails-sender.service';
 import { IEmailsSender } from './emails-sender.interface';
-import { SendinBlueApiError } from './sendin.blue.api.error';
+import { SendinBlueApiError } from './sendin-blue-api.error';
 import { EmailsSenderError } from './emails-sender.error';
 
 describe('EmailsSender', () => {

@@ -9,21 +9,16 @@ export class File {
   name: string;
 
   @Field()
-  location: string;
+  uri: string;
 
   @Field()
   size: number;
 
   // noinspection DuplicatedCode
-  public constructor(
-    _id: string,
-    name: string,
-    location: string,
-    size: number,
-  ) {
+  public constructor(_id: string, name: string, uri: string, size: number) {
     this._id = _id;
     this.name = name;
-    this.location = location;
+    this.uri = uri;
     this.size = size;
   }
 }

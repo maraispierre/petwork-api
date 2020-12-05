@@ -6,8 +6,8 @@ import { RegisterInput } from '../../../application/api/users/inputs/register.in
 import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
 import { EmailsSender } from '../../../infrastructure/emails/emails-sender.service';
 import { SendinBlueSender } from '../../../infrastructure/emails/sendin-blue-sender.impl.service';
-import { RegisterSendEmailError } from './errors/register.send.email.error';
-import { RegisterDuplicatedEmailError } from './errors/register.duplicated.email.error';
+import { RegisterSendEmailError } from './errors/register-send-email.error';
+import { RegisterDuplicatedEmailError } from './errors/register-duplicated-email.error';
 
 describe('Register', () => {
   const _ID = 'ID';

@@ -4,9 +4,9 @@ import { File } from '../../files/file.model';
 import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
 import { FilesUploader } from '../../../infrastructure/files/files-uploader.service';
 import { FileUpload } from 'graphql-upload';
-import { AvatarManagerUnknownUserError } from './errors/avatar.manager.unknown.user.error';
+import { AvatarManagerUnknownUserError } from './errors/avatar-manager-unknown-user.error';
 import { FilesRemover } from '../../../infrastructure/files/files-remover.service';
-import { AvatarManagerUploadedFileError } from './errors/avatar.manager.uploaded.file.error';
+import { AvatarManagerUploadedFileError } from './errors/avatar-manager-uploaded-file.error';
 
 @Injectable()
 export class AvatarManager {

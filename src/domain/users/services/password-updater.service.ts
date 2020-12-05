@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { User } from '../user.model';
 import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
-import { PasswordUpdaterUnknownUserError } from './errors/password.updater.unknown.user.error';
+import { PasswordUpdaterUnknownUserError } from './errors/password-updater-unknown-user.error';
 
 @Injectable()
 export class PasswordUpdater {

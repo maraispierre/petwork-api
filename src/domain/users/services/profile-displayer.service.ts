@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { User } from '../user.model';
 import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
-import { ProfileDisplayerUnknownUserError } from './errors/profile.displayer.unknown.user.error';
+import { ProfileDisplayerUnknownUserError } from './errors/profile-displayer-unknown-user.error';
 
 @Injectable()
 export class ProfileDisplayer {

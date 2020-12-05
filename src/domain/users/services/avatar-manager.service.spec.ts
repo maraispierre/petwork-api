@@ -9,9 +9,9 @@ import { AwsS3FilesRemover } from '../../../infrastructure/files/aws-s3-files-re
 import { File } from '../../files/file.model';
 import { FileUpload } from 'graphql-upload';
 import { ReadStream } from 'fs';
-import { AvatarManagerUnknownUserError } from './errors/avatar.manager.unknown.user.error';
+import { AvatarManagerUnknownUserError } from './errors/avatar-manager-unknown-user.error';
 import { FilesUploaderError } from '../../../infrastructure/files/files-uploader.error';
-import { AvatarManagerUploadedFileError } from './errors/avatar.manager.uploaded.file.error';
+import { AvatarManagerUploadedFileError } from './errors/avatar-manager-uploaded-file.error';
 import { FilesRemoverError } from '../../../infrastructure/files/files-remover.error';
 
 describe('AvatarManager', () => {

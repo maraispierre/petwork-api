@@ -3,7 +3,7 @@ import { User } from '../user.model';
 import { ProfileUpdater } from './profile-updater.service';
 import { ProfileInput } from '../../../application/api/users/inputs/profile.input';
 import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
-import { ProfileUpdaterUnknownUserError } from './errors/profile.updater.unknown.user.error';
+import { ProfileUpdaterUnknownUserError } from './errors/profile-updater-unknown-user.error';
 
 describe('ProfileUpdater', () => {
   const _ID = 'test';

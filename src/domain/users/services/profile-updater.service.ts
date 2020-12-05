@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { User } from '../user.model';
 import { ProfileInput } from '../../../application/api/users/inputs/profile.input';
 import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
-import { ProfileUpdaterUnknownUserError } from './errors/profile.updater.unknown.user.error';
+import { ProfileUpdaterUnknownUserError } from './errors/profile-updater-unknown-user.error';
 
 @Injectable()
 export class ProfileUpdater {
