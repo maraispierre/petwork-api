@@ -1,4 +1,5 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { File } from '../files/file.schema';
 
 @ObjectType()
 export class User {
@@ -17,6 +18,9 @@ export class User {
   @Field()
   lastname: string;
 
+  @Field(/* istanbul ignore next */ () => File)
+  avatar: File | undefined;
+
   @Field()
   isSuspended: boolean;
 
@@ -27,6 +31,7 @@ export class User {
     password: string,
     firstname: string,
     lastname: string,
+    avatar: File | undefined = undefined,
   ) {
     this._id = _id;
     this.email = email;
@@ -34,5 +39,6 @@ export class User {
     this.firstname = firstname;
     this.lastname = lastname;
     this.isSuspended = false;
+    this.avatar = avatar;
   }
 }

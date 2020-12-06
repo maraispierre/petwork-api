@@ -3,7 +3,7 @@ import { User } from '../user.model';
 import { PasswordUpdater } from './password-updater.service';
 import * as bcrypt from 'bcrypt';
 import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
-import { PasswordUpdaterUnknownUserError } from './errors/password.updater.unknown.user.error';
+import { PasswordUpdaterUnknownUserError } from './errors/password-updater-unknown-user.error';
 
 describe('PasswordUpdater', () => {
   const _ID = 'test';

@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { User } from '../user.model';
 import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
-import { SuspenderUnknownUserError } from './errors/suspender.unknown.user.error';
+import { SuspenderUnknownUserError } from './errors/suspender-unknown-user.error';
 
 @Injectable()
 export class Suspender {

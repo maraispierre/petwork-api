@@ -1,4 +1,5 @@
 import { Column, Entity, ObjectIdColumn } from 'typeorm';
+import { File } from '../files/files.entity';
 
 @Entity()
 export class User {
@@ -18,6 +19,9 @@ export class User {
   lastname: string;
 
   @Column()
+  avatar: File | undefined;
+
+  @Column()
   isSuspended: boolean;
 
   // noinspection DuplicatedCode
@@ -27,6 +31,7 @@ export class User {
     password: string,
     firstname: string,
     lastname: string,
+    avatar: File | undefined = undefined,
   ) {
     this._id = _id;
     this.email = email;
@@ -34,5 +39,6 @@ export class User {
     this.firstname = firstname;
     this.lastname = lastname;
     this.isSuspended = false;
+    this.avatar = avatar;
   }
 }

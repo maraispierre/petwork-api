@@ -2,6 +2,7 @@ import * as bcrypt from 'bcrypt';
 import { globalConstants } from '../../constant';
 import { RegisterInput } from '../../application/api/users/inputs/register.input';
 import { ProfileInput } from '../../application/api/users/inputs/profile.input';
+import { File } from '../files/file.model';
 
 export class User {
   _id: string | undefined;
@@ -14,6 +15,8 @@ export class User {
 
   lastname: string;
 
+  avatar: File | undefined;
+
   isSuspended: boolean;
 
   // noinspection DuplicatedCode
@@ -23,6 +26,7 @@ export class User {
     password: string,
     firstname: string,
     lastname: string,
+    avatar: File | undefined = undefined,
   ) {
     this._id = _id;
     this.email = email;
@@ -30,6 +34,7 @@ export class User {
     this.firstname = firstname;
     this.lastname = lastname;
     this.isSuspended = false;
+    this.avatar = avatar;
   }
 
   public static async subscribe(subscription: RegisterInput) {
@@ -59,5 +64,9 @@ export class User {
 
   public updatePassword(password: string): void {
     this.password = bcrypt.hashSync(password, globalConstants.bcryptSaltRounds);
+  }
+
+  public updateAvatar(avatar: File): void {
+    this.avatar = avatar;
   }
 }

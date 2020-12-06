@@ -2,7 +2,9 @@ import { UsersRepository } from './users.repository';
 import { User as UserEntity } from './user.entity';
 import { Repository } from 'typeorm';
 import { User } from '../../../domain/users/user.model';
-import { DuplicatedUserError } from './duplicated.user.error';
+import { DuplicatedUserError } from './duplicated-user.error';
+import { File as FileEntity } from '../files/files.entity';
+import { File } from '../../../domain/files/file.model';
 
 describe('UsersRepository', () => {
   const _ID = 'test';
@@ -27,6 +29,7 @@ describe('UsersRepository', () => {
         PASSWORD,
         FIRSTNAME,
         LASTNAME,
+        new FileEntity('', '', '', 0),
       );
       jest
         .spyOn(repository, 'findOne')
@@ -113,6 +116,31 @@ describe('UsersRepository', () => {
 
   describe('save', () => {
     it('should return an user', async () => {
+      const mockedUser = new UserEntity(
+        _ID,
+        EMAIL,
+        PASSWORD,
+        FIRSTNAME,
+        LASTNAME,
+        new FileEntity('', '', '', 0),
+      );
+      jest.spyOn(repository, 'save').mockImplementation(async () => mockedUser);
+
+      const user = new User(
+        _ID,
+        EMAIL,
+        PASSWORD,
+        FIRSTNAME,
+        LASTNAME,
+        new File('', '', '', 0),
+      );
+
+      const expectedResult = await usersRepository.save(user);
+
+      expect(expectedResult).toBeInstanceOf(User);
+    });
+
+    it('should return an user without avatar', async () => {
       const mockedUser = new UserEntity(
         _ID,
         EMAIL,

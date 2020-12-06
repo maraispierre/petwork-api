@@ -3,7 +3,7 @@ import { Repository } from 'typeorm';
 import { User as UserEntity } from './user.entity';
 import { User } from '../../../domain/users/user.model';
 import { UserMapper } from '../../mappers/user.mapper';
-import { DuplicatedUserError } from './duplicated.user.error';
+import { DuplicatedUserError } from './duplicated-user.error';
 import { Logger } from '@nestjs/common';
 
 export class UsersRepository {

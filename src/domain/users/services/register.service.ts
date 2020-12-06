@@ -3,8 +3,8 @@ import { User } from '../user.model';
 import { RegisterInput } from '../../../application/api/users/inputs/register.input';
 import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
 import { EmailsSender } from '../../../infrastructure/emails/emails-sender.service';
-import { RegisterSendEmailError } from './errors/register.send.email.error';
-import { RegisterDuplicatedEmailError } from './errors/register.duplicated.email.error';
+import { RegisterSendEmailError } from './errors/register-send-email.error';
+import { RegisterDuplicatedEmailError } from './errors/register-duplicated-email.error';
 
 @Injectable()
 export class Register {

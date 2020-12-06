@@ -2,7 +2,7 @@ import { Repository } from 'typeorm';
 import { User } from '../user.model';
 import { Suspender } from './suspender.service';
 import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
-import { SuspenderUnknownUserError } from './errors/suspender.unknown.user.error';
+import { SuspenderUnknownUserError } from './errors/suspender-unknown-user.error';
 
 describe('Suspender', () => {
   const _ID = 'test';

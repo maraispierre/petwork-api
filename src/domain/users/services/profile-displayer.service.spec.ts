@@ -2,7 +2,7 @@ import { Repository } from 'typeorm';
 import { User } from '../user.model';
 import { ProfileDisplayer } from './profile-displayer.service';
 import { UsersRepository } from '../../../infrastructure/persistence/users/users.repository';
-import { ProfileDisplayerUnknownUserError } from './errors/profile.displayer.unknown.user.error';
+import { ProfileDisplayerUnknownUserError } from './errors/profile-displayer-unknown-user.error';
 
 describe('ProfileDisplayer', () => {
   const _ID = 'test';
