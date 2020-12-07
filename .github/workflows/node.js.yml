@@ -53,5 +53,3 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: yarn install
     - run: yarn run test:cov
-      env:
-        SENDIN_BLUE_API_KEY: ${{ secrets.SENDIN_BLUE_API_KEY }}
